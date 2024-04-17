@@ -17,6 +17,7 @@ namespace read_csv_form
         DataTable result_dt = new DataTable();
         int row_count;
         int row_index;
+        String mode;
 
         private void loadCSVToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -190,7 +191,9 @@ namespace read_csv_form
         public static DataTable Station_Stopping(DataTable split_dataTable)
         {
             DataTable result_dataTable = new DataTable();
+            DataTable overall_dataTable = new DataTable();
             DataRow result_row;
+            DataRow overall_row;
             int stop_count = 0;
             int result_count = 0;
             int xg0_row = 0;
@@ -225,6 +228,7 @@ namespace read_csv_form
                     string stop_flag = split_dataTable.Rows[row_index]["C17D"].ToString();
                     string wegx07 = split_dataTable.Rows[row_index]["C133"].ToString();
                     string wegx00 = split_dataTable.Rows[row_index]["C12C"].ToString();
+                    string mode;
                     var bytes = Convert.FromHexString(prox);
 
                     if (stop_flag == "01")
@@ -263,7 +267,7 @@ namespace read_csv_form
 
                             if (deviation == 0)
                             {
-                                string mode = "Exact";
+                                mode = "Exact";
                                 result_row[0] = result_count;
                                 result_row[1] = time;
                                 result_row[2] = platform;
@@ -279,7 +283,7 @@ namespace read_csv_form
                             }
                             else
                             {
-                                string mode = "Over";
+                                mode = "Over";
                                 result_row[0] = result_count;
                                 result_row[1] = time;
                                 result_row[2] = platform;
@@ -324,7 +328,7 @@ namespace read_csv_form
                                 decimal stationary_pos_round = RoundDecimal(stationary_pos_dec, 3);
                                 deviation = (stationary_pos_round - xg0_pos_round);
 
-                                string mode = "Over-FE";
+                                mode = "Over-FE";
                                 result_row[0] = result_count;
                                 result_row[1] = time;
                                 result_row[2] = platform;
@@ -354,7 +358,7 @@ namespace read_csv_form
 
                             else if (position_lock == "un-locked")
                             {
-                                string mode = "Problem";
+                                mode = "Problem";
                                 result_row[0] = result_count;
                                 result_row[1] = time;
                                 result_row[2] = platform;
@@ -395,7 +399,7 @@ namespace read_csv_form
                                 decimal stationary_pos_round = RoundDecimal(stationary_pos_dec, 3);
                                 deviation = (stationary_pos_round - xg0_pos_round);
 
-                                string mode = "Over-FF";
+                                mode = "Over-FF";
                                 result_row[0] = result_count;
                                 result_row[1] = time;
                                 result_row[2] = platform;
@@ -425,7 +429,7 @@ namespace read_csv_form
 
                             else if (position_lock == "un-locked")
                             {
-                                string mode = "Over-FF";
+                                mode = "Over-FF";
                                 result_row[0] = result_count;
                                 result_row[1] = time;
                                 result_row[2] = platform;
@@ -463,7 +467,7 @@ namespace read_csv_form
                             decimal stationary_pos_round = RoundDecimal(stationary_pos_dec, 3);
                             deviation = -1 * d2g_round * 1000;
 
-                            string mode = "short";
+                            mode = "short";
                             result_row[0] = result_count;
                             result_row[1] = time;
                             result_row[2] = platform;
@@ -490,7 +494,13 @@ namespace read_csv_form
                             position_lock = "un-locked";
                         }
                     }
+                    overall_dataTable.Columns.Add("Deviation");
+                    overall_row = overall_dataTable.NewRow();
+                    overall_row[0] = deviation;
+                    //overall_row[1] = mode;
+                    overall_dataTable.Rows.Add(overall_row);
                 }
+
             }
             return result_dataTable;
         }
@@ -650,18 +660,6 @@ namespace read_csv_form
         private void dataGridView1_CellContentClick_2(object sender, DataGridViewCellEventArgs e)
         {
             DataTable result_table = new DataTable();
-            result_table.Columns.Add("ID", typeof(int));
-            result_table.Columns.Add("First Name", typeof(int));
-            result_table.Columns.Add("Last Name", typeof(int));
-            result_table.Columns.Add("Age", typeof(int));
-
-            result_table.Rows.Add(1, "First A", "Last D", 10);
-            result_table.Rows.Add(2, "First A", "Last D", 10);
-            result_table.Rows.Add(3, "First A", "Last D", 10);
-            result_table.Rows.Add(4, "First A", "Last D", 10);
-            result_table.Rows.Add(5, "First A", "Last D", 10);
-            result_table.Rows.Add(6, "First A", "Last D", 10);
-
             dataGridView1.DataSource = result_table;
         }
 
@@ -673,12 +671,26 @@ namespace read_csv_form
         private void hScrollBar1_Scroll(object sender, ScrollEventArgs e)
         {
             hScrollBar1.Minimum = 0;
-            hScrollBar1.Maximum = 98843;
-            label1.Text = row_count.ToString();
+            hScrollBar1.Maximum = 184900;
+            C08A.Text = row_count.ToString();
+            Index.Text = "Index: " + splitted_dt_dec.Rows[hScrollBar1.Value]["Index"].ToString();
             Time.Text = "Time: " + splitted_dt_dec.Rows[hScrollBar1.Value]["Time"].ToString();
             C17D.Text = "C17D: " + splitted_dt_dec.Rows[hScrollBar1.Value]["C17D"].ToString();
             C44C.Text = "C44C: " + splitted_dt_dec.Rows[hScrollBar1.Value]["C44C"].ToString();
             C133.Text = "C133: " + splitted_dt_dec.Rows[hScrollBar1.Value]["C133"].ToString();
+            C433.Text = "C433: " + splitted_dt_dec.Rows[hScrollBar1.Value]["C433"].ToString();
+            C43C.Text = "C43C: " + splitted_dt_dec.Rows[hScrollBar1.Value]["C43C"].ToString();
+            C219.Text = "C219: " + splitted_dt_dec.Rows[hScrollBar1.Value]["C219"].ToString();
+            C573.Text = "C573: " + splitted_dt_dec.Rows[hScrollBar1.Value]["C573"].ToString();
+            C12C.Text = "C12C: " + splitted_dt_dec.Rows[hScrollBar1.Value]["C12C"].ToString();
+            C118.Text = "C118: " + splitted_dt_dec.Rows[hScrollBar1.Value]["C118"].ToString();
+            C117.Text = "C117: " + splitted_dt_dec.Rows[hScrollBar1.Value]["C117"].ToString();
+            C116.Text = "C116: " + splitted_dt_dec.Rows[hScrollBar1.Value]["C116"].ToString();
+            C089.Text = "C089: " + splitted_dt_dec.Rows[hScrollBar1.Value]["C089"].ToString();
+            C088.Text = "C088: " + splitted_dt_dec.Rows[hScrollBar1.Value]["C088"].ToString();
+            C08B.Text = "C08B: " + splitted_dt_dec.Rows[hScrollBar1.Value]["C08B"].ToString();
+            C08A.Text = "C08A: " + splitted_dt_dec.Rows[hScrollBar1.Value]["C08A"].ToString();
+            C17B.Text = "C17B: " + splitted_dt_dec.Rows[hScrollBar1.Value]["C17B"].ToString();
         }
 
       
