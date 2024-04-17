@@ -31,11 +31,6 @@
             components = new System.ComponentModel.Container();
             menuStrip1 = new MenuStrip();
             menuStrip2 = new MenuStrip();
-            fileToolStripMenuItem1 = new ToolStripMenuItem();
-            loadToolStripMenuItem = new ToolStripMenuItem();
-            exitToolStripMenuItem1 = new ToolStripMenuItem();
-            analysisToolStripMenuItem1 = new ToolStripMenuItem();
-            runToolStripMenuItem1 = new ToolStripMenuItem();
             fileToolStripMenuItem = new ToolStripMenuItem();
             loadcsv_menu = new ToolStripMenuItem();
             exitToolStripMenuItem = new ToolStripMenuItem();
@@ -44,18 +39,15 @@
             openFileDialog1 = new OpenFileDialog();
             btnClickThisBindingSource = new BindingSource(components);
             dataGridView1 = new DataGridView();
-            dataGridView2 = new DataGridView();
             hScrollBar1 = new HScrollBar();
             label1 = new Label();
             Time = new Label();
             C17D = new Label();
             C44C = new Label();
             C133 = new Label();
-            label5 = new Label();
             menuStrip2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)btnClickThisBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
             SuspendLayout();
             // 
             // menuStrip1
@@ -68,45 +60,12 @@
             // 
             // menuStrip2
             // 
-            menuStrip2.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem1, analysisToolStripMenuItem1, fileToolStripMenuItem, analysisToolStripMenuItem });
+            menuStrip2.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, analysisToolStripMenuItem });
             menuStrip2.Location = new Point(0, 0);
             menuStrip2.Name = "menuStrip2";
             menuStrip2.Size = new Size(1085, 24);
             menuStrip2.TabIndex = 3;
             menuStrip2.Text = "menuStrip2";
-            // 
-            // fileToolStripMenuItem1
-            // 
-            fileToolStripMenuItem1.DropDownItems.AddRange(new ToolStripItem[] { loadToolStripMenuItem, exitToolStripMenuItem1 });
-            fileToolStripMenuItem1.Name = "fileToolStripMenuItem1";
-            fileToolStripMenuItem1.Size = new Size(37, 20);
-            fileToolStripMenuItem1.Text = "File";
-            // 
-            // loadToolStripMenuItem
-            // 
-            loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            loadToolStripMenuItem.Size = new Size(100, 22);
-            loadToolStripMenuItem.Text = "Load";
-            loadToolStripMenuItem.Click += loadToolStripMenuItem_Click;
-            // 
-            // exitToolStripMenuItem1
-            // 
-            exitToolStripMenuItem1.Name = "exitToolStripMenuItem1";
-            exitToolStripMenuItem1.Size = new Size(100, 22);
-            exitToolStripMenuItem1.Text = "Exit";
-            // 
-            // analysisToolStripMenuItem1
-            // 
-            analysisToolStripMenuItem1.DropDownItems.AddRange(new ToolStripItem[] { runToolStripMenuItem1 });
-            analysisToolStripMenuItem1.Name = "analysisToolStripMenuItem1";
-            analysisToolStripMenuItem1.Size = new Size(62, 20);
-            analysisToolStripMenuItem1.Text = "Analysis";
-            // 
-            // runToolStripMenuItem1
-            // 
-            runToolStripMenuItem1.Name = "runToolStripMenuItem1";
-            runToolStripMenuItem1.Size = new Size(95, 22);
-            runToolStripMenuItem1.Text = "Run";
             // 
             // fileToolStripMenuItem
             // 
@@ -118,14 +77,14 @@
             // loadcsv_menu
             // 
             loadcsv_menu.Name = "loadcsv_menu";
-            loadcsv_menu.Size = new Size(120, 22);
+            loadcsv_menu.Size = new Size(180, 22);
             loadcsv_menu.Text = "Load csv";
             loadcsv_menu.Click += loadCSVToolStripMenuItem_Click;
             // 
             // exitToolStripMenuItem
             // 
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.Size = new Size(120, 22);
+            exitToolStripMenuItem.Size = new Size(180, 22);
             exitToolStripMenuItem.Text = "Exit";
             // 
             // analysisToolStripMenuItem
@@ -160,16 +119,6 @@
             dataGridView1.Size = new Size(509, 353);
             dataGridView1.TabIndex = 4;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick_2;
-            // 
-            // dataGridView2
-            // 
-            dataGridView2.BackgroundColor = SystemColors.Control;
-            dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView2.Location = new Point(12, 414);
-            dataGridView2.Name = "dataGridView2";
-            dataGridView2.Size = new Size(1065, 150);
-            dataGridView2.TabIndex = 5;
-            dataGridView2.CellContentClick += dataGridView2_CellContentClick;
             // 
             // hScrollBar1
             // 
@@ -224,26 +173,17 @@
             C133.TabIndex = 11;
             C133.Text = "C133";
             // 
-            // label5
-            // 
-            label5.Location = new Point(0, 0);
-            label5.Name = "label5";
-            label5.Size = new Size(100, 23);
-            label5.TabIndex = 0;
-            // 
             // btnClickThis
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1085, 576);
-            Controls.Add(label5);
             Controls.Add(C133);
             Controls.Add(C44C);
             Controls.Add(C17D);
             Controls.Add(Time);
             Controls.Add(label1);
             Controls.Add(hScrollBar1);
-            Controls.Add(dataGridView2);
             Controls.Add(dataGridView1);
             Controls.Add(menuStrip1);
             Controls.Add(menuStrip2);
@@ -254,7 +194,6 @@
             menuStrip2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)btnClickThisBindingSource).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)dataGridView2).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -270,18 +209,11 @@
         private OpenFileDialog openFileDialog1;
         private BindingSource btnClickThisBindingSource;
         private DataGridView dataGridView1;
-        private DataGridView dataGridView2;
         private HScrollBar hScrollBar1;
         private Label label1;
         private Label Time;
         private Label C17D;
         private Label C44C;
         private Label C133;
-        private Label label5;
-        private ToolStripMenuItem fileToolStripMenuItem1;
-        private ToolStripMenuItem loadToolStripMenuItem;
-        private ToolStripMenuItem exitToolStripMenuItem1;
-        private ToolStripMenuItem analysisToolStripMenuItem1;
-        private ToolStripMenuItem runToolStripMenuItem1;
     }
 }

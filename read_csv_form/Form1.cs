@@ -57,8 +57,8 @@ namespace read_csv_form
             DataTable result_dt = Station_Stopping(splitted_dt_dec);
             dataGridView1.DataSource = result_dt; // Bind the DataGridView to your DataTable
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridView2.DataSource = splitted_dt_dec;
-            dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            //dataGridView2.DataSource = splitted_dt_dec;
+            //dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             //DataGridViewColumn column = dataGridView1.Columns[0];
             //column.Width = 30;
 
@@ -665,10 +665,10 @@ namespace read_csv_form
             dataGridView1.DataSource = result_table;
         }
 
-        private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
+        //private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        //{
 
-        }
+        //}
 
         private void hScrollBar1_Scroll(object sender, ScrollEventArgs e)
         {
@@ -681,38 +681,6 @@ namespace read_csv_form
             C133.Text = "C133: " + splitted_dt_dec.Rows[hScrollBar1.Value]["C133"].ToString();
         }
 
-        private void loadToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var fileContent = string.Empty;
-            var csv_filePath = string.Empty;
-
-            using (OpenFileDialog openFileDialog = new OpenFileDialog())
-            {
-                openFileDialog.InitialDirectory = "c:\\";
-                openFileDialog.Filter = "csv files (*.csv)|*.csv|All files (*.*)|*.*";
-                openFileDialog.FilterIndex = 2;
-                openFileDialog.RestoreDirectory = true;
-
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    //Get the path of specified file
-                    csv_filePath = openFileDialog.FileName;
-
-                    //Read the contents of the file into a stream
-                    //var fileStream = openFileDialog.OpenFile();
-
-                    //using (StreamReader reader = new StreamReader(fileStream))
-                    //{
-                    //    fileContent = reader.ReadToEnd();
-                    //}
-                }
-            }
-
-
-            var splitted_dt = Split_RTD(csv_filePath);
-            splitted_dt_dec = splitted_dt.split_dataTable;
-            splitted_dt_bin = splitted_dt.split_dataTable_bin;
-            MessageBox.Show(fileContent, "File Content at path: " + csv_filePath, MessageBoxButtons.OK);
-        }
+      
     }
 }
