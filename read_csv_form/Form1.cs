@@ -1,7 +1,9 @@
 using Microsoft.VisualBasic.FileIO;
+using OfficeOpenXml;
 using System.Data;
 using System.Text;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace read_csv_form
 {
@@ -18,11 +20,13 @@ namespace read_csv_form
         int row_count;
         int row_index;
         String mode;
+        string csv_filePath = string.Empty;
+        string filename;
 
         private void loadCSVToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var fileContent = string.Empty;
-            var csv_filePath = string.Empty;
+            // csv_filePath = string.Empty;
 
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
@@ -46,11 +50,16 @@ namespace read_csv_form
                 }
             }
 
-
+            filename = Path.GetFileNameWithoutExtension(csv_filePath);
             var splitted_dt = Split_RTD(csv_filePath);
             splitted_dt_dec = splitted_dt.split_dataTable;
             splitted_dt_bin = splitted_dt.split_dataTable_bin;
             MessageBox.Show(fileContent, "File Content at path: " + csv_filePath, MessageBoxButtons.OK);
+        }
+
+        private void SaveButton_Click(object sender, EventArgs e)
+        {
+
         }
 
         private void runToolStripMenuItem_Click(object sender, EventArgs e)
@@ -494,11 +503,11 @@ namespace read_csv_form
                             position_lock = "un-locked";
                         }
                     }
-                    overall_dataTable.Columns.Add("Deviation");
-                    overall_row = overall_dataTable.NewRow();
-                    overall_row[0] = deviation;
-                    //overall_row[1] = mode;
-                    overall_dataTable.Rows.Add(overall_row);
+                    //overall_dataTable.Columns.Add("Deviation");
+                    //overall_row = overall_dataTable.NewRow();
+                    //overall_row[0] = deviation;
+                    ////overall_row[1] = mode;
+                    //overall_dataTable.Rows.Add(overall_row);
                 }
 
             }
@@ -663,11 +672,6 @@ namespace read_csv_form
             dataGridView1.DataSource = result_table;
         }
 
-        //private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        //{
-
-        //}
-
         private void hScrollBar1_Scroll(object sender, ScrollEventArgs e)
         {
             hScrollBar1.Minimum = 0;
@@ -693,6 +697,62 @@ namespace read_csv_form
             C17B.Text = "C17B: " + splitted_dt_dec.Rows[hScrollBar1.Value]["C17B"].ToString();
         }
 
-      
+
+
+        //private void exportHexFileToolStripMenuItem_Click(object sender, EventArgs e)
+        //{
+
+        //}
+
+        private void exportSplittedDecDataToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog sfd = new SaveFileDialog() { Filter = "Excel Workbook|*.xlsx" })
+            {
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    var fileInfo = new FileInfo(sfd.FileName);
+                    using (ExcelPackage excelPackage = new ExcelPackage(fileInfo))
+                    {
+                        ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.Add("Splitted Data");
+                        worksheet.Cells.LoadFromDataTable(splitted_dt_dec, true);
+                        excelPackage.Save();
+                    }
+                }
+            }
+        }
+
+        private void rAWDatabinToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog sfd = new SaveFileDialog() { Filter = "Excel Workbook|*.xlsx" })
+            {
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    var fileInfo = new FileInfo(sfd.FileName);
+                    using (ExcelPackage excelPackage = new ExcelPackage(fileInfo))
+                    {
+                        ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.Add("Splitted Data");
+                        worksheet.Cells.LoadFromDataTable(splitted_dt_bin, true);
+                        excelPackage.Save();
+                    }
+                }
+            }
+        }
+
+        private void stoppingDataToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog sfd = new SaveFileDialog() { Filter = "Excel Workbook|*.xlsx" })
+            {
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    var fileInfo = new FileInfo(sfd.FileName);
+                    using (ExcelPackage excelPackage = new ExcelPackage(fileInfo))
+                    {
+                        ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.Add("Stopping Data");
+                        worksheet.Cells.LoadFromDataTable(result_dt, true);
+                        excelPackage.Save();
+                    }
+                }
+            }
+        }
     }
 }

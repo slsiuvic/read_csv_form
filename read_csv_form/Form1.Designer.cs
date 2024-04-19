@@ -33,6 +33,9 @@
             menuStrip2 = new MenuStrip();
             fileToolStripMenuItem = new ToolStripMenuItem();
             loadcsv_menu = new ToolStripMenuItem();
+            exportToolStripMenuItem = new ToolStripMenuItem();
+            exportSplittedDecDataToolStripMenuItem = new ToolStripMenuItem();
+            rAWDatabinToolStripMenuItem = new ToolStripMenuItem();
             exitToolStripMenuItem = new ToolStripMenuItem();
             analysisToolStripMenuItem = new ToolStripMenuItem();
             runToolStripMenuItem = new ToolStripMenuItem();
@@ -58,6 +61,8 @@
             C08B = new Label();
             C17B = new Label();
             Index = new Label();
+            saveFileDialog1 = new SaveFileDialog();
+            stoppingDataToolStripMenuItem = new ToolStripMenuItem();
             menuStrip2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)btnClickThisBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
@@ -82,7 +87,7 @@
             // 
             // fileToolStripMenuItem
             // 
-            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { loadcsv_menu, exitToolStripMenuItem });
+            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { loadcsv_menu, exportToolStripMenuItem, exitToolStripMenuItem });
             fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             fileToolStripMenuItem.Size = new Size(37, 20);
             fileToolStripMenuItem.Text = "File";
@@ -90,14 +95,35 @@
             // loadcsv_menu
             // 
             loadcsv_menu.Name = "loadcsv_menu";
-            loadcsv_menu.Size = new Size(120, 22);
+            loadcsv_menu.Size = new Size(180, 22);
             loadcsv_menu.Text = "Load csv";
             loadcsv_menu.Click += loadCSVToolStripMenuItem_Click;
+            // 
+            // exportToolStripMenuItem
+            // 
+            exportToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { exportSplittedDecDataToolStripMenuItem, rAWDatabinToolStripMenuItem, stoppingDataToolStripMenuItem });
+            exportToolStripMenuItem.Name = "exportToolStripMenuItem";
+            exportToolStripMenuItem.Size = new Size(180, 22);
+            exportToolStripMenuItem.Text = "Export";
+            // 
+            // exportSplittedDecDataToolStripMenuItem
+            // 
+            exportSplittedDecDataToolStripMenuItem.Name = "exportSplittedDecDataToolStripMenuItem";
+            exportSplittedDecDataToolStripMenuItem.Size = new Size(180, 22);
+            exportSplittedDecDataToolStripMenuItem.Text = "RAW data (dec)";
+            exportSplittedDecDataToolStripMenuItem.Click += exportSplittedDecDataToolStripMenuItem_Click;
+            // 
+            // rAWDatabinToolStripMenuItem
+            // 
+            rAWDatabinToolStripMenuItem.Name = "rAWDatabinToolStripMenuItem";
+            rAWDatabinToolStripMenuItem.Size = new Size(180, 22);
+            rAWDatabinToolStripMenuItem.Text = "RAW data (bin)";
+            rAWDatabinToolStripMenuItem.Click += rAWDatabinToolStripMenuItem_Click;
             // 
             // exitToolStripMenuItem
             // 
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.Size = new Size(120, 22);
+            exitToolStripMenuItem.Size = new Size(180, 22);
             exitToolStripMenuItem.Text = "Exit";
             // 
             // analysisToolStripMenuItem
@@ -303,6 +329,13 @@
             Index.TabIndex = 24;
             Index.Text = "Index";
             // 
+            // stoppingDataToolStripMenuItem
+            // 
+            stoppingDataToolStripMenuItem.Name = "stoppingDataToolStripMenuItem";
+            stoppingDataToolStripMenuItem.Size = new Size(180, 22);
+            stoppingDataToolStripMenuItem.Text = "Stopping data";
+            stoppingDataToolStripMenuItem.Click += stoppingDataToolStripMenuItem_Click;
+            // 
             // btnClickThis
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -371,5 +404,10 @@
         private Label C08B;
         private Label C17B;
         private Label Index;
+        private SaveFileDialog saveFileDialog1;
+        private ToolStripMenuItem exportToolStripMenuItem;
+        private ToolStripMenuItem exportSplittedDecDataToolStripMenuItem;
+        private ToolStripMenuItem rAWDatabinToolStripMenuItem;
+        private ToolStripMenuItem stoppingDataToolStripMenuItem;
     }
 }
