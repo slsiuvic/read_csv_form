@@ -21,8 +21,8 @@ namespace read_csv_form
         DataTable result_table = new DataTable();
         DataTable overall_raw_dt = new DataTable();
 
-
-
+        string train_ID;
+        string log_date;
         int row_count;
         int row_index;
         String mode;
@@ -57,6 +57,8 @@ namespace read_csv_form
             }
 
             filename = Path.GetFileNameWithoutExtension(csv_filePath);
+            log_date = filename.Substring(0, 8);
+            train_ID = filename.Substring(9, 3);
             var splitted_dt = Split_RTD(csv_filePath);
             splitted_dt_dec = splitted_dt.split_dataTable;
             splitted_dt_bin = splitted_dt.split_dataTable_bin;
@@ -614,6 +616,74 @@ namespace read_csv_form
             return platform;
         }
 
+        public static String platform_door(DataTable split_dataTable, int row_index)
+        {
+            string psd_status;
+            string psd_bit = split_dataTable.Rows[row_index]["C573"].ToString();
+
+            if (psd_bit == "00")
+            {
+                psd_status = "PSD absent";
+            }
+            else if (psd_bit == "01")
+            {
+                psd_status = "PSD disable";
+            }
+            else if (psd_bit == "02")
+            {
+                psd_status = "PSD enable";
+            }
+            else if (psd_bit == "03")
+            {
+                psd_status = "Closed";
+            }
+            else if (psd_bit == "04")
+            {
+                psd_status = "PSD Open";
+            }
+            else if (psd_bit == "05")
+            {
+                psd_status = "PSD OC";
+            }
+            else if (psd_bit == "FF")
+            {
+                psd_status = "PSD Unknow status";
+            }
+            else
+            {
+                psd_status = "";
+            }
+            return psd_status;
+
+            //else if (psd_bit == "02")
+            //{
+            //    //psd_status = "PSD enable";
+            //    return psd_status = "PSD enable";
+            //}
+            //else if (psd_bit == "03")
+            //{
+            //    //psd_status = "Closed";
+            //    return psd_status = "Closed";
+            //}
+            //else if (psd_bit == "04")
+            //{
+            //    //psd_status = "PSD Open";
+            //    return psd_status = "PSD Open";
+            //}
+            //else if (psd_bit == "05")
+            //{
+            //    //psd_status = "PSD OC";
+            //    return psd_status = "PSD OC";
+            //}
+            //else if (psd_bit == "FF")
+            //{
+            //    //psd_status = "PSD Unknow status";
+            //    return psd_status = "PSD Unknow status";
+            //}
+
+
+        }
+
         // Helper method to print the DataTable
         static void PrintDataTable(DataTable dataTable)
         {
@@ -683,8 +753,10 @@ namespace read_csv_form
             platform.Text = "Platform: " + Train_Platform(Convert.ToInt32(splitted_dt_dec.Rows[hScrollBar1.Value]["C433"].ToString(), 16).ToString(), Convert.ToInt32(splitted_dt_dec.Rows[hScrollBar1.Value]["C43C"].ToString(), 16).ToString(), splitted_dt_dec.Rows[hScrollBar1.Value]["C118"].ToString());
             proxmity.Text = "Proxmity Plate: " + prox_detect;
             over_under.Text = "Over/Undershoot: " + overall_raw_dt.Rows[hScrollBar1.Value]["Mode"].ToString();
-            trainspeed.Text = "Train Speed: " + overall_raw_dt.Rows[hScrollBar1.Value]["Speed"].ToString();
-
+            trainspeed.Text = "Train Speed (kph): " + overall_raw_dt.Rows[hScrollBar1.Value]["Speed"].ToString();
+            logdate.Text = "Date: " + log_date;
+            trainID.Text = "Train ID: " + train_ID;
+            psd.Text = "Platfrom Door: " + platform_door(overall_raw_dt,hScrollBar1.Value).ToString();
             //conditional color
             if (docking == "Docked")
             {

@@ -71,6 +71,9 @@
             proxmity = new Label();
             over_under = new Label();
             trainspeed = new Label();
+            logdate = new Label();
+            trainID = new Label();
+            psd = new Label();
             menuStrip2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)btnClickThisBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
@@ -171,19 +174,19 @@
             // 
             dataGridView1.BackgroundColor = SystemColors.Control;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(21, 80);
+            dataGridView1.Location = new Point(21, 719);
             dataGridView1.Margin = new Padding(5, 6, 5, 6);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 21;
-            dataGridView1.Size = new Size(873, 914);
+            dataGridView1.Size = new Size(1839, 275);
             dataGridView1.TabIndex = 4;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick_2;
             // 
             // hScrollBar1
             // 
-            hScrollBar1.Location = new Point(899, 660);
+            hScrollBar1.Location = new Point(21, 659);
             hScrollBar1.Name = "hScrollBar1";
-            hScrollBar1.Size = new Size(936, 42);
+            hScrollBar1.Size = new Size(1830, 42);
             hScrollBar1.TabIndex = 6;
             hScrollBar1.Scroll += hScrollBar1_Scroll;
             // 
@@ -191,7 +194,7 @@
             // 
             C08A.AutoSize = true;
             C08A.Font = new Font("Consolas", 12F);
-            C08A.Location = new Point(931, 566);
+            C08A.Location = new Point(1090, 557);
             C08A.Margin = new Padding(5, 0, 5, 0);
             C08A.Name = "C08A";
             C08A.Size = new Size(75, 33);
@@ -202,7 +205,7 @@
             // 
             Time.AutoSize = true;
             Time.Font = new Font("Consolas", 12F);
-            Time.Location = new Point(931, 116);
+            Time.Location = new Point(505, 77);
             Time.Margin = new Padding(5, 0, 5, 0);
             Time.Name = "Time";
             Time.Size = new Size(75, 33);
@@ -213,7 +216,7 @@
             // 
             C17D.AutoSize = true;
             C17D.Font = new Font("Consolas", 12F);
-            C17D.Location = new Point(931, 146);
+            C17D.Location = new Point(1090, 137);
             C17D.Margin = new Padding(5, 0, 5, 0);
             C17D.Name = "C17D";
             C17D.Size = new Size(75, 33);
@@ -224,7 +227,7 @@
             // 
             C44C.AutoSize = true;
             C44C.Font = new Font("Consolas", 12F);
-            C44C.Location = new Point(931, 176);
+            C44C.Location = new Point(1090, 167);
             C44C.Margin = new Padding(5, 0, 5, 0);
             C44C.Name = "C44C";
             C44C.Size = new Size(75, 33);
@@ -235,7 +238,7 @@
             // 
             C133.AutoSize = true;
             C133.Font = new Font("Consolas", 12F);
-            C133.Location = new Point(931, 206);
+            C133.Location = new Point(1090, 197);
             C133.Margin = new Padding(5, 0, 5, 0);
             C133.Name = "C133";
             C133.Size = new Size(75, 33);
@@ -246,7 +249,7 @@
             // 
             C433.AutoSize = true;
             C433.Font = new Font("Consolas", 12F);
-            C433.Location = new Point(931, 236);
+            C433.Location = new Point(1090, 227);
             C433.Margin = new Padding(5, 0, 5, 0);
             C433.Name = "C433";
             C433.Size = new Size(75, 33);
@@ -257,7 +260,7 @@
             // 
             C43C.AutoSize = true;
             C43C.Font = new Font("Consolas", 12F);
-            C43C.Location = new Point(931, 266);
+            C43C.Location = new Point(1090, 257);
             C43C.Margin = new Padding(5, 0, 5, 0);
             C43C.Name = "C43C";
             C43C.Size = new Size(75, 33);
@@ -268,7 +271,7 @@
             // 
             C219.AutoSize = true;
             C219.Font = new Font("Consolas", 12F);
-            C219.Location = new Point(931, 296);
+            C219.Location = new Point(1090, 287);
             C219.Margin = new Padding(5, 0, 5, 0);
             C219.Name = "C219";
             C219.Size = new Size(75, 33);
@@ -279,7 +282,7 @@
             // 
             C573.AutoSize = true;
             C573.Font = new Font("Consolas", 12F);
-            C573.Location = new Point(931, 326);
+            C573.Location = new Point(1090, 317);
             C573.Margin = new Padding(5, 0, 5, 0);
             C573.Name = "C573";
             C573.Size = new Size(75, 33);
@@ -290,7 +293,7 @@
             // 
             C12C.AutoSize = true;
             C12C.Font = new Font("Consolas", 12F);
-            C12C.Location = new Point(931, 356);
+            C12C.Location = new Point(1090, 347);
             C12C.Margin = new Padding(5, 0, 5, 0);
             C12C.Name = "C12C";
             C12C.Size = new Size(75, 33);
@@ -301,7 +304,7 @@
             // 
             C118.AutoSize = true;
             C118.Font = new Font("Consolas", 12F);
-            C118.Location = new Point(931, 386);
+            C118.Location = new Point(1090, 377);
             C118.Margin = new Padding(5, 0, 5, 0);
             C118.Name = "C118";
             C118.Size = new Size(75, 33);
@@ -312,7 +315,7 @@
             // 
             C117.AutoSize = true;
             C117.Font = new Font("Consolas", 12F);
-            C117.Location = new Point(931, 416);
+            C117.Location = new Point(1090, 407);
             C117.Margin = new Padding(5, 0, 5, 0);
             C117.Name = "C117";
             C117.Size = new Size(75, 33);
@@ -323,7 +326,7 @@
             // 
             C116.AutoSize = true;
             C116.Font = new Font("Consolas", 12F);
-            C116.Location = new Point(931, 446);
+            C116.Location = new Point(1090, 437);
             C116.Margin = new Padding(5, 0, 5, 0);
             C116.Name = "C116";
             C116.Size = new Size(75, 33);
@@ -334,7 +337,7 @@
             // 
             C089.AutoSize = true;
             C089.Font = new Font("Consolas", 12F);
-            C089.Location = new Point(931, 476);
+            C089.Location = new Point(1090, 467);
             C089.Margin = new Padding(5, 0, 5, 0);
             C089.Name = "C089";
             C089.Size = new Size(75, 33);
@@ -345,7 +348,7 @@
             // 
             C088.AutoSize = true;
             C088.Font = new Font("Consolas", 12F);
-            C088.Location = new Point(931, 506);
+            C088.Location = new Point(1090, 497);
             C088.Margin = new Padding(5, 0, 5, 0);
             C088.Name = "C088";
             C088.Size = new Size(75, 33);
@@ -356,7 +359,7 @@
             // 
             C08B.AutoSize = true;
             C08B.Font = new Font("Consolas", 12F);
-            C08B.Location = new Point(929, 536);
+            C08B.Location = new Point(1088, 527);
             C08B.Margin = new Padding(5, 0, 5, 0);
             C08B.Name = "C08B";
             C08B.Size = new Size(75, 33);
@@ -367,7 +370,7 @@
             // 
             C17B.AutoSize = true;
             C17B.Font = new Font("Consolas", 12F);
-            C17B.Location = new Point(929, 596);
+            C17B.Location = new Point(1088, 587);
             C17B.Margin = new Padding(5, 0, 5, 0);
             C17B.Name = "C17B";
             C17B.Size = new Size(75, 33);
@@ -378,7 +381,7 @@
             // 
             Index.AutoSize = true;
             Index.Font = new Font("Consolas", 12F);
-            Index.Location = new Point(929, 86);
+            Index.Location = new Point(1088, 77);
             Index.Margin = new Padding(5, 0, 5, 0);
             Index.Name = "Index";
             Index.Size = new Size(90, 33);
@@ -389,7 +392,7 @@
             // 
             LogDeviation.AutoSize = true;
             LogDeviation.Font = new Font("Consolas", 12F);
-            LogDeviation.Location = new Point(1176, 146);
+            LogDeviation.Location = new Point(505, 206);
             LogDeviation.Name = "LogDeviation";
             LogDeviation.Size = new Size(270, 33);
             LogDeviation.TabIndex = 25;
@@ -400,7 +403,7 @@
             // 
             remain_target.AutoSize = true;
             remain_target.Font = new Font("Consolas", 12F);
-            remain_target.Location = new Point(1176, 119);
+            remain_target.Location = new Point(37, 206);
             remain_target.Name = "remain_target";
             remain_target.Size = new Size(210, 33);
             remain_target.TabIndex = 26;
@@ -410,7 +413,7 @@
             // 
             train_stationary.AutoSize = true;
             train_stationary.Font = new Font("Consolas", 12F);
-            train_stationary.Location = new Point(1176, 179);
+            train_stationary.Location = new Point(37, 123);
             train_stationary.Name = "train_stationary";
             train_stationary.Size = new Size(90, 33);
             train_stationary.TabIndex = 27;
@@ -420,7 +423,7 @@
             // 
             dock.AutoSize = true;
             dock.Font = new Font("Consolas", 12F);
-            dock.Location = new Point(1174, 212);
+            dock.Location = new Point(37, 165);
             dock.Name = "dock";
             dock.Size = new Size(180, 33);
             dock.TabIndex = 28;
@@ -430,7 +433,7 @@
             // 
             platform.AutoSize = true;
             platform.Font = new Font("Consolas", 12F);
-            platform.Location = new Point(1176, 245);
+            platform.Location = new Point(37, 249);
             platform.Name = "platform";
             platform.Size = new Size(135, 33);
             platform.TabIndex = 29;
@@ -440,7 +443,7 @@
             // 
             proxmity.AutoSize = true;
             proxmity.Font = new Font("Consolas", 12F);
-            proxmity.Location = new Point(1205, 288);
+            proxmity.Location = new Point(505, 165);
             proxmity.Name = "proxmity";
             proxmity.Size = new Size(150, 33);
             proxmity.TabIndex = 30;
@@ -450,7 +453,7 @@
             // 
             over_under.AutoSize = true;
             over_under.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            over_under.Location = new Point(1198, 356);
+            over_under.Location = new Point(505, 249);
             over_under.Name = "over_under";
             over_under.Size = new Size(240, 33);
             over_under.TabIndex = 31;
@@ -460,17 +463,50 @@
             // 
             trainspeed.AutoSize = true;
             trainspeed.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            trainspeed.Location = new Point(1247, 417);
+            trainspeed.Location = new Point(37, 296);
             trainspeed.Name = "trainspeed";
             trainspeed.Size = new Size(180, 33);
             trainspeed.TabIndex = 32;
             trainspeed.Text = "Train Speed";
+            // 
+            // logdate
+            // 
+            logdate.AutoSize = true;
+            logdate.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            logdate.Location = new Point(37, 77);
+            logdate.Name = "logdate";
+            logdate.Size = new Size(75, 33);
+            logdate.TabIndex = 33;
+            logdate.Text = "Date";
+            // 
+            // trainID
+            // 
+            trainID.AutoSize = true;
+            trainID.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            trainID.Location = new Point(505, 123);
+            trainID.Name = "trainID";
+            trainID.Size = new Size(135, 33);
+            trainID.TabIndex = 34;
+            trainID.Text = "Train ID";
+            // 
+            // psd
+            // 
+            psd.AutoSize = true;
+            psd.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            psd.Location = new Point(505, 296);
+            psd.Name = "psd";
+            psd.Size = new Size(210, 33);
+            psd.TabIndex = 35;
+            psd.Text = "Platform Door";
             // 
             // btnClickThis
             // 
             AutoScaleDimensions = new SizeF(12F, 30F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1860, 1152);
+            Controls.Add(psd);
+            Controls.Add(trainID);
+            Controls.Add(logdate);
             Controls.Add(trainspeed);
             Controls.Add(over_under);
             Controls.Add(proxmity);
@@ -556,5 +592,8 @@
         private Label proxmity;
         private Label over_under;
         private Label trainspeed;
+        private Label logdate;
+        private Label trainID;
+        private Label psd;
     }
 }
