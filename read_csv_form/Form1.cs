@@ -1,6 +1,7 @@
 using Microsoft.VisualBasic.FileIO;
 using OfficeOpenXml;
 using System.Data;
+using System.Reflection.Emit;
 using System.Text;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
@@ -18,7 +19,10 @@ namespace read_csv_form
         DataTable splitted_dt_bin = new DataTable();
         DataTable result_dt = new DataTable();
         DataTable result_table = new DataTable();
-        DataTable overall_table = new DataTable();
+        DataTable overall_raw_dt = new DataTable();
+
+
+
         int row_count;
         int row_index;
         String mode;
@@ -60,11 +64,13 @@ namespace read_csv_form
             MessageBox.Show("CSV Loaded");
         }
 
-
-
         private void runToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DataTable result_dt = Station_Stopping(splitted_dt_dec);
+            var station_stopping_dt = Station_Stopping(splitted_dt_dec);
+            DataTable logDev_col = new DataTable();
+            result_dt = station_stopping_dt.result_dataTable;
+            overall_raw_dt = station_stopping_dt.logDev_col_dt;
+            WriteDataTableToCSV(overall_raw_dt, "C:\\temp_files\\overall_raw_dt.csv");
             dataGridView1.DataSource = result_dt; // Bind the DataGridView to your DataTable
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
@@ -189,10 +195,11 @@ namespace read_csv_form
             return result.ToString();
         }
 
-        public static DataTable Station_Stopping(DataTable split_dataTable)
+        //public static DataTable Station_Stopping(DataTable split_dataTable)
+        public static (DataTable result_dataTable, DataTable logDev_col_dt) Station_Stopping(DataTable split_dataTable)
         {
             DataTable result_dataTable = new DataTable();
-            DataTable overall_dataTable = new DataTable();
+            DataTable logDev_col_dt = split_dataTable.Copy();
             DataRow result_row;
             DataRow overall_row;
             int stop_count = 0;
@@ -205,13 +212,14 @@ namespace read_csv_form
             {
                 result_dataTable.Columns.Add(column_name);
             }
-
-            overall_dataTable.Columns.Add("Log Deviation");
-            overall_dataTable.Columns.Add("Mode");
+            
+            logDev_col_dt.Columns.Add("Log Deviation");
+            logDev_col_dt.Columns.Add("Mode");
+            logDev_col_dt.Columns.Add("Speed");
 
             //Console.WriteLine(split_dataTable.Rows.Count);
 
-            for (int row_index = 0; row_index < split_dataTable.Rows.Count; row_index++)
+            for (int row_index = 0; row_index < split_dataTable.Rows.Count - 1; row_index++)
             {
                 string vcc = split_dataTable.Rows[row_index]["C433"].ToString();
                 string loop = split_dataTable.Rows[row_index]["C43C"].ToString();
@@ -221,17 +229,26 @@ namespace read_csv_form
                 string c118 = split_dataTable.Rows[row_index]["C118"].ToString();
                 string mode = "";
                 decimal deviation = 0;
+                string speed = train_speed(split_dataTable, row_index).ToString();
 
                 string[] mainline_vcc = new string[] { "01", "02", "04", "05", "06", "07", "08", "09", "0C" };
+
+                //if (row_index < split_dataTable.Rows.Count - 1)
+                //{
+                //    logDev_col_dt.Rows[row_index][21] = speed;
+                //}
+                logDev_col_dt.Rows[row_index][21] = speed;
 
                 if (mainline_vcc.Contains(vcc) && psd != "00")
                 {
                     result_row = result_dataTable.NewRow();
+                    //overall_row = logDev_col_dt.NewRow();
                     string dock = split_dataTable.Rows[row_index]["C44C"].ToString();
                     string prox = split_dataTable.Rows[row_index]["C219"].ToString();
                     string stop_flag = split_dataTable.Rows[row_index]["C17D"].ToString();
                     string wegx07 = split_dataTable.Rows[row_index]["C133"].ToString();
                     string wegx00 = split_dataTable.Rows[row_index]["C12C"].ToString();
+                    decimal deviation_lock;
                     //string mode;
                     var bytes = Convert.FromHexString(prox);
 
@@ -282,6 +299,8 @@ namespace read_csv_form
                                 result_row[7] = row_index;
 
                                 result_dataTable.Rows.Add(result_row);
+                                logDev_col_dt.Rows[row_index][19] = deviation;
+                                logDev_col_dt.Rows[row_index][20] = mode;
                                 xg0_row = 0;
                                 position_lock = "un-locked";
                             }
@@ -298,6 +317,8 @@ namespace read_csv_form
                                 result_row[7] = row_index;
 
                                 result_dataTable.Rows.Add(result_row);
+                                logDev_col_dt.Rows[row_index][19] = deviation;
+                                logDev_col_dt.Rows[row_index][20] = mode;
                                 xg0_row = 0;
                                 position_lock = "un-locked";
 
@@ -328,6 +349,8 @@ namespace read_csv_form
                                 result_row[7] = row_index;
 
                                 result_dataTable.Rows.Add(result_row);
+                                logDev_col_dt.Rows[row_index][19] = deviation;
+                                logDev_col_dt.Rows[row_index][20] = mode;
                                 position_lock = "un-locked";
                             }
 
@@ -344,6 +367,8 @@ namespace read_csv_form
                                 result_row[7] = row_index;
 
                                 result_dataTable.Rows.Add(result_row);
+                                logDev_col_dt.Rows[row_index][19] = deviation;
+                                logDev_col_dt.Rows[row_index][20] = mode;
                                 position_lock = "un-locked";
                             }
                         }
@@ -361,6 +386,7 @@ namespace read_csv_form
                                 double stationary_pos_dec = Convert.ToInt32(stationary_pos, 16) * 0.00076;
                                 decimal stationary_pos_round = RoundDecimal(stationary_pos_dec, 3);
                                 deviation = (stationary_pos_round - xg0_pos_round);
+                                deviation_lock = (stationary_pos_round - xg0_pos_round);
 
                                 mode = "Over-FF";
                                 result_row[0] = result_count;
@@ -371,8 +397,14 @@ namespace read_csv_form
                                 result_row[5] = prox_status(prox);
                                 result_row[6] = mode;
                                 result_row[7] = row_index;
-
                                 result_dataTable.Rows.Add(result_row);
+                                logDev_col_dt.Rows[row_index][19] = deviation;
+                                logDev_col_dt.Rows[row_index][20] = mode;
+                                //overall_row = logDev_col_dt.NewRow();
+
+                                //overall_row[row_index][19] = deviation;
+                                //overall_row[20] = mode;
+                                //logDev_col_dt.Rows.Add(overall_row);
                                 position_lock = "un-locked";
                             }
 
@@ -387,8 +419,13 @@ namespace read_csv_form
                                 result_row[5] = prox_status(prox);
                                 result_row[6] = mode;
                                 result_row[7] = row_index;
-
                                 result_dataTable.Rows.Add(result_row);
+                                logDev_col_dt.Rows[row_index][19] = deviation;
+                                logDev_col_dt.Rows[row_index][20] = mode;
+                                //overall_row = logDev_col_dt.NewRow();
+                                //overall_row[19] = deviation;
+                                //overall_row[20] = mode;
+                                //logDev_col_dt.Rows.Add(overall_row);
                                 position_lock = "un-locked";
                             }
                         }
@@ -413,19 +450,32 @@ namespace read_csv_form
                             result_row[5] = prox_status(prox);
                             result_row[6] = mode;
                             result_row[7] = row_index;
-                            
+
                             result_dataTable.Rows.Add(result_row);
+                            logDev_col_dt.Rows[row_index][19] = deviation;
+                            logDev_col_dt.Rows[row_index][20] = mode;
                             position_lock = "un-locked";
                         }
-                    }
+                    }                
                 }
-                overall_row = overall_dataTable.NewRow();
-                overall_row[0] = deviation;
-                overall_row[1] = mode;
-                overall_dataTable.Rows.Add(overall_row);
             }
-            WriteDataTableToCSV(overall_dataTable, "c:\\temp_files\\overall_result.csv");
-            return result_dataTable;
+
+
+            return (result_dataTable, logDev_col_dt);
+        }
+
+        public static double train_speed(DataTable split_dataTable, int row_index)
+        {
+            string c117_1 = split_dataTable.Rows[row_index]["C117"].ToString();
+            double c117_1_dec = Convert.ToInt32(c117_1, 16);
+            decimal c117_1_round = RoundDecimal(c117_1_dec, 3);
+            string c117_2 = split_dataTable.Rows[row_index+1]["C117"].ToString();
+            double c117_2_dec = Convert.ToInt32(c117_2, 16);
+            decimal c117_2_round = RoundDecimal(c117_2_dec, 3);
+
+            double displayment = c117_2_dec - c117_1_dec;
+            double speed = displayment * 0.5;
+            return Math.Abs(speed);
         }
 
         public static decimal RoundDecimal(double value, int places)
@@ -433,7 +483,6 @@ namespace read_csv_form
             decimal value_decimal = Convert.ToDecimal(value);
             value_decimal = decimal.Round(value_decimal, places);
             return value_decimal;
-
         }
 
         public static String Train_Position(DataTable split_dataTable, int row_index)
@@ -452,6 +501,23 @@ namespace read_csv_form
 
             string position = wegx07_value + wegx00_value;
             return position;
+        }
+
+        public static String train_moving(DataTable split_dataTable, int row_index)
+        {
+            string moving_bit = split_dataTable.Rows[row_index]["C17D"].ToString();
+            string moving_status = "";
+            if (moving_bit == "01")
+            {
+                moving_status = "Stopped";
+            }
+
+            else
+            {
+                moving_status = "Moving";
+            }
+
+            return moving_status;
         }
 
         public static String dock_status(string dock_bit)
@@ -579,7 +645,6 @@ namespace read_csv_form
             File.WriteAllText(filePath, sb.ToString());
         }
 
-
         private void dataGridView1_CellContentClick_2(object sender, DataGridViewCellEventArgs e)
         {
             //DataTable result_table = new DataTable();
@@ -591,7 +656,9 @@ namespace read_csv_form
             int count = splitted_dt_dec.Rows.Count;
             hScrollBar1.Minimum = 0;
             hScrollBar1.Maximum = count;
-            Index.Text = "Index: " + splitted_dt_dec.Rows[hScrollBar1.Value]["Index"].ToString();
+            string docking = dock_status(splitted_dt_dec.Rows[hScrollBar1.Value]["C44C"].ToString());
+            string prox_detect = prox_status(splitted_dt_dec.Rows[hScrollBar1.Value]["C219"].ToString());
+            Index.Text = "Index: " + overall_raw_dt.Rows[hScrollBar1.Value]["Index"].ToString();
             Time.Text = "Time: " + splitted_dt_dec.Rows[hScrollBar1.Value]["Time"].ToString();
             C17D.Text = "C17D: " + splitted_dt_dec.Rows[hScrollBar1.Value]["C17D"].ToString();
             C44C.Text = "C44C: " + splitted_dt_dec.Rows[hScrollBar1.Value]["C44C"].ToString();
@@ -609,6 +676,33 @@ namespace read_csv_form
             C08B.Text = "C08B: " + splitted_dt_dec.Rows[hScrollBar1.Value]["C08B"].ToString();
             C08A.Text = "C08A: " + splitted_dt_dec.Rows[hScrollBar1.Value]["C08A"].ToString();
             C17B.Text = "C17B: " + splitted_dt_dec.Rows[hScrollBar1.Value]["C17B"].ToString();
+            LogDeviation.Text = "Logical Deviation: " + overall_raw_dt.Rows[hScrollBar1.Value]["Log Deviation"].ToString();
+            remain_target.Text = "Remain Target: " + dist2go(splitted_dt_dec,hScrollBar1.Value).ToString();
+            train_stationary.Text = "Train: " + train_moving(splitted_dt_dec, hScrollBar1.Value).ToString();
+            dock.Text = "Dock Status: " + docking;
+            platform.Text = "Platform: " + Train_Platform(Convert.ToInt32(splitted_dt_dec.Rows[hScrollBar1.Value]["C433"].ToString(), 16).ToString(), Convert.ToInt32(splitted_dt_dec.Rows[hScrollBar1.Value]["C43C"].ToString(), 16).ToString(), splitted_dt_dec.Rows[hScrollBar1.Value]["C118"].ToString());
+            proxmity.Text = "Proxmity Plate: " + prox_detect;
+            over_under.Text = "Over/Undershoot: " + overall_raw_dt.Rows[hScrollBar1.Value]["Mode"].ToString();
+            trainspeed.Text = "Train Speed: " + overall_raw_dt.Rows[hScrollBar1.Value]["Speed"].ToString();
+
+            //conditional color
+            if (docking == "Docked")
+            {
+                dock.BackColor = System.Drawing.Color.Orange;
+            }
+            else
+            {
+                dock.BackColor = System.Drawing.Color.Transparent;
+            }
+            
+            if (prox_detect == "Detected")
+            {
+                proxmity.BackColor = System.Drawing.Color.Green;
+            }
+            else
+            {
+                proxmity.BackColor = System.Drawing.Color.Transparent;
+            }
         }
 
         private void exportSplittedDecDataToolStripMenuItem_Click(object sender, EventArgs e)
@@ -649,7 +743,9 @@ namespace read_csv_form
 
         private void stoppingDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DataTable result_dt = Station_Stopping(splitted_dt_dec);
+            //DataTable result_dt = Station_Stopping(splitted_dt_dec);
+            var station_stopping_dt = Station_Stopping(splitted_dt_dec);
+            result_dt = station_stopping_dt.result_dataTable;
             using (SaveFileDialog sfd = new SaveFileDialog() { Filter = "Excel Workbook|*.xlsx" })
             {
                 if (sfd.ShowDialog() == DialogResult.OK)
@@ -665,5 +761,7 @@ namespace read_csv_form
                 }
             }
         }
+
+
     }
 }
