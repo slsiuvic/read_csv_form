@@ -4,6 +4,7 @@ using System.Data;
 using System.Reflection.Emit;
 using System.Text;
 using System.Windows.Forms;
+using static OfficeOpenXml.ExcelErrorValue;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace read_csv_form
@@ -21,10 +22,13 @@ namespace read_csv_form
         DataTable result_table = new DataTable();
         DataTable overall_raw_dt = new DataTable();
 
+
         string train_ID;
         string log_date;
         int row_count;
         int row_index;
+        int temp_int;
+
         String mode;
         string csv_filePath = string.Empty;
         string filename;
@@ -214,7 +218,7 @@ namespace read_csv_form
             {
                 result_dataTable.Columns.Add(column_name);
             }
-            
+
             logDev_col_dt.Columns.Add("Log Deviation");
             logDev_col_dt.Columns.Add("Mode");
             logDev_col_dt.Columns.Add("Speed");
@@ -458,7 +462,7 @@ namespace read_csv_form
                             logDev_col_dt.Rows[row_index][20] = mode;
                             position_lock = "un-locked";
                         }
-                    }                
+                    }
                 }
             }
 
@@ -471,7 +475,7 @@ namespace read_csv_form
             string c117_1 = split_dataTable.Rows[row_index]["C117"].ToString();
             double c117_1_dec = Convert.ToInt32(c117_1, 16);
             decimal c117_1_round = RoundDecimal(c117_1_dec, 3);
-            string c117_2 = split_dataTable.Rows[row_index+1]["C117"].ToString();
+            string c117_2 = split_dataTable.Rows[row_index + 1]["C117"].ToString();
             double c117_2_dec = Convert.ToInt32(c117_2, 16);
             decimal c117_2_round = RoundDecimal(c117_2_dec, 3);
 
@@ -721,61 +725,7 @@ namespace read_csv_form
             //dataGridView1.DataSource = result_table;
         }
 
-        private void hScrollBar1_Scroll(object sender, ScrollEventArgs e)
-        {
-            int count = splitted_dt_dec.Rows.Count;
-            hScrollBar1.Minimum = 0;
-            hScrollBar1.Maximum = count;
-            string docking = dock_status(splitted_dt_dec.Rows[hScrollBar1.Value]["C44C"].ToString());
-            string prox_detect = prox_status(splitted_dt_dec.Rows[hScrollBar1.Value]["C219"].ToString());
-            Index.Text = "Index: " + overall_raw_dt.Rows[hScrollBar1.Value]["Index"].ToString();
-            Time.Text = "Time: " + splitted_dt_dec.Rows[hScrollBar1.Value]["Time"].ToString();
-            C17D.Text = "C17D: " + splitted_dt_dec.Rows[hScrollBar1.Value]["C17D"].ToString();
-            C44C.Text = "C44C: " + splitted_dt_dec.Rows[hScrollBar1.Value]["C44C"].ToString();
-            C133.Text = "C133: " + splitted_dt_dec.Rows[hScrollBar1.Value]["C133"].ToString();
-            C433.Text = "C433: " + splitted_dt_dec.Rows[hScrollBar1.Value]["C433"].ToString();
-            C43C.Text = "C43C: " + splitted_dt_dec.Rows[hScrollBar1.Value]["C43C"].ToString();
-            C219.Text = "C219: " + splitted_dt_dec.Rows[hScrollBar1.Value]["C219"].ToString();
-            C573.Text = "C573: " + splitted_dt_dec.Rows[hScrollBar1.Value]["C573"].ToString();
-            C12C.Text = "C12C: " + splitted_dt_dec.Rows[hScrollBar1.Value]["C12C"].ToString();
-            C118.Text = "C118: " + splitted_dt_dec.Rows[hScrollBar1.Value]["C118"].ToString();
-            C117.Text = "C117: " + splitted_dt_dec.Rows[hScrollBar1.Value]["C117"].ToString();
-            C116.Text = "C116: " + splitted_dt_dec.Rows[hScrollBar1.Value]["C116"].ToString();
-            C089.Text = "C089: " + splitted_dt_dec.Rows[hScrollBar1.Value]["C089"].ToString();
-            C088.Text = "C088: " + splitted_dt_dec.Rows[hScrollBar1.Value]["C088"].ToString();
-            C08B.Text = "C08B: " + splitted_dt_dec.Rows[hScrollBar1.Value]["C08B"].ToString();
-            C08A.Text = "C08A: " + splitted_dt_dec.Rows[hScrollBar1.Value]["C08A"].ToString();
-            C17B.Text = "C17B: " + splitted_dt_dec.Rows[hScrollBar1.Value]["C17B"].ToString();
-            LogDeviation.Text = "Logical Deviation: " + overall_raw_dt.Rows[hScrollBar1.Value]["Log Deviation"].ToString();
-            remain_target.Text = "Remain Target: " + dist2go(splitted_dt_dec,hScrollBar1.Value).ToString();
-            train_stationary.Text = "Train: " + train_moving(splitted_dt_dec, hScrollBar1.Value).ToString();
-            dock.Text = "Dock Status: " + docking;
-            platform.Text = "Platform: " + Train_Platform(Convert.ToInt32(splitted_dt_dec.Rows[hScrollBar1.Value]["C433"].ToString(), 16).ToString(), Convert.ToInt32(splitted_dt_dec.Rows[hScrollBar1.Value]["C43C"].ToString(), 16).ToString(), splitted_dt_dec.Rows[hScrollBar1.Value]["C118"].ToString());
-            proxmity.Text = "Proxmity Plate: " + prox_detect;
-            over_under.Text = "Over/Undershoot: " + overall_raw_dt.Rows[hScrollBar1.Value]["Mode"].ToString();
-            trainspeed.Text = "Train Speed (kph): " + overall_raw_dt.Rows[hScrollBar1.Value]["Speed"].ToString();
-            logdate.Text = "Date: " + log_date;
-            trainID.Text = "Train ID: " + train_ID;
-            psd.Text = "Platfrom Door: " + platform_door(overall_raw_dt,hScrollBar1.Value).ToString();
-            //conditional color
-            if (docking == "Docked")
-            {
-                dock.BackColor = System.Drawing.Color.Orange;
-            }
-            else
-            {
-                dock.BackColor = System.Drawing.Color.Transparent;
-            }
-            
-            if (prox_detect == "Detected")
-            {
-                proxmity.BackColor = System.Drawing.Color.Green;
-            }
-            else
-            {
-                proxmity.BackColor = System.Drawing.Color.Transparent;
-            }
-        }
+
 
         private void exportSplittedDecDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -834,6 +784,83 @@ namespace read_csv_form
             }
         }
 
+        private void index_input_TextChanged(object sender, EventArgs e)
+        {
 
+            //if (int.TryParse(index_input.Text, out int value))
+            //{
+            //    // Ensure the value is within the scrollbar's range
+            //    value = Math.Min(Math.Max(value, hscrollBar1.Minimum), scrollBar.Maximum);
+            //    scrollBar.Value = value;
+            //}
+        }
+
+
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            int count = splitted_dt_dec.Rows.Count;
+            trackBar1.Minimum = 0;
+            trackBar1.Maximum = count;
+
+            string docking = dock_status(splitted_dt_dec.Rows[trackBar1.Value]["C44C"].ToString());
+            string prox_detect = prox_status(splitted_dt_dec.Rows[trackBar1.Value]["C219"].ToString());
+
+
+
+            Index.Text = "Index: " + overall_raw_dt.Rows[trackBar1.Value]["Index"].ToString();
+            Time.Text = "Time: " + splitted_dt_dec.Rows[trackBar1.Value]["Time"].ToString();
+            C17D.Text = "C17D: " + splitted_dt_dec.Rows[trackBar1.Value]["C17D"].ToString();
+            C44C.Text = "C44C: " + splitted_dt_dec.Rows[trackBar1.Value]["C44C"].ToString();
+            C133.Text = "C133: " + splitted_dt_dec.Rows[trackBar1.Value]["C133"].ToString();
+            C433.Text = "C433: " + splitted_dt_dec.Rows[trackBar1.Value]["C433"].ToString();
+            C43C.Text = "C43C: " + splitted_dt_dec.Rows[trackBar1.Value]["C43C"].ToString();
+            C219.Text = "C219: " + splitted_dt_dec.Rows[trackBar1.Value]["C219"].ToString();
+            C573.Text = "C573: " + splitted_dt_dec.Rows[trackBar1.Value]["C573"].ToString();
+            C12C.Text = "C12C: " + splitted_dt_dec.Rows[trackBar1.Value]["C12C"].ToString();
+            C118.Text = "C118: " + splitted_dt_dec.Rows[trackBar1.Value]["C118"].ToString();
+            C117.Text = "C117: " + splitted_dt_dec.Rows[trackBar1.Value]["C117"].ToString();
+            C116.Text = "C116: " + splitted_dt_dec.Rows[trackBar1.Value]["C116"].ToString();
+            C089.Text = "C089: " + splitted_dt_dec.Rows[trackBar1.Value]["C089"].ToString();
+            C088.Text = "C088: " + splitted_dt_dec.Rows[trackBar1.Value]["C088"].ToString();
+            C08B.Text = "C08B: " + splitted_dt_dec.Rows[trackBar1.Value]["C08B"].ToString();
+            C08A.Text = "C08A: " + splitted_dt_dec.Rows[trackBar1.Value]["C08A"].ToString();
+            C17B.Text = "C17B: " + splitted_dt_dec.Rows[trackBar1.Value]["C17B"].ToString();
+            LogDeviation.Text = "Logical Deviation: " + overall_raw_dt.Rows[trackBar1.Value]["Log Deviation"].ToString();
+            remain_target.Text = "Remain Target: " + dist2go(splitted_dt_dec, trackBar1.Value).ToString();
+            train_stationary.Text = "Train: " + train_moving(splitted_dt_dec, trackBar1.Value).ToString();
+            dock.Text = "Dock Status: " + docking;
+            platform.Text = "Platform: " + Train_Platform(Convert.ToInt32(splitted_dt_dec.Rows[trackBar1.Value]["C433"].ToString(), 16).ToString(), Convert.ToInt32(splitted_dt_dec.Rows[trackBar1.Value]["C43C"].ToString(), 16).ToString(), splitted_dt_dec.Rows[trackBar1.Value]["C118"].ToString());
+            proxmity.Text = "Proxmity Plate: " + prox_detect;
+            over_under.Text = "Over/Undershoot: " + overall_raw_dt.Rows[trackBar1.Value]["Mode"].ToString();
+            trainspeed.Text = "Train Speed (kph): " + overall_raw_dt.Rows[trackBar1.Value]["Speed"].ToString();
+            logdate.Text = "Date: " + log_date;
+            trainID.Text = "Train ID: " + train_ID;
+            psd.Text = "Platfrom Door: " + platform_door(overall_raw_dt, trackBar1.Value).ToString();
+
+            //conditional color
+            if (docking == "Docked")
+            {
+                dock.BackColor = System.Drawing.Color.Orange;
+            }
+            else
+            {
+                dock.BackColor = System.Drawing.Color.Transparent;
+            }
+
+            if (prox_detect == "Detected")
+            {
+                proxmity.BackColor = System.Drawing.Color.Green;
+            }
+            else
+            {
+                proxmity.BackColor = System.Drawing.Color.Transparent;
+            }
+        }
+
+        private void Time_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
