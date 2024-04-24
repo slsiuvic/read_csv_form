@@ -171,6 +171,8 @@ namespace read_csv_form
             //station_stopping(split_dataTable);
         }
 
+
+
         private static readonly Dictionary<char, string> hexCharacterToBinary = new Dictionary<char, string> {
     { '0', "0000" },
     { '1', "0001" },
@@ -213,6 +215,8 @@ namespace read_csv_form
             int xg0_row = 0;
             string[] column_names = new string[] { "item", "Time", "Platform", "Deviation", "Dock", "Proxmity", "mode", "Row Index" };
             string position_lock = "un-locked";
+            string mode = "";
+            decimal deviation = 0;
 
             foreach (string column_name in column_names)
             {
@@ -233,11 +237,13 @@ namespace read_csv_form
                 string loop_dec = Convert.ToInt32(loop, 16).ToString();
                 string psd = split_dataTable.Rows[row_index]["C573"].ToString();
                 string c118 = split_dataTable.Rows[row_index]["C118"].ToString();
-                string mode = "";
-                decimal deviation = 0;
+                //string mode = "";
+                //decimal deviation = 0;
                 string speed = train_speed(split_dataTable, row_index).ToString();
 
                 string[] mainline_vcc = new string[] { "01", "02", "04", "05", "06", "07", "08", "09", "0C" };
+                logDev_col_dt.Rows[row_index][19] = 0;
+                logDev_col_dt.Rows[row_index][20] = "";
 
                 //if (row_index < split_dataTable.Rows.Count - 1)
                 //{
@@ -305,8 +311,8 @@ namespace read_csv_form
                                 result_row[7] = row_index;
 
                                 result_dataTable.Rows.Add(result_row);
-                                logDev_col_dt.Rows[row_index][19] = deviation;
-                                logDev_col_dt.Rows[row_index][20] = mode;
+                                //logDev_col_dt.Rows[row_index][19] = deviation;
+                                //logDev_col_dt.Rows[row_index][20] = mode;
                                 xg0_row = 0;
                                 position_lock = "un-locked";
                             }
@@ -323,8 +329,8 @@ namespace read_csv_form
                                 result_row[7] = row_index;
 
                                 result_dataTable.Rows.Add(result_row);
-                                logDev_col_dt.Rows[row_index][19] = deviation;
-                                logDev_col_dt.Rows[row_index][20] = mode;
+                                //logDev_col_dt.Rows[row_index][19] = deviation;
+                                //logDev_col_dt.Rows[row_index][20] = mode;
                                 xg0_row = 0;
                                 position_lock = "un-locked";
 
@@ -355,8 +361,8 @@ namespace read_csv_form
                                 result_row[7] = row_index;
 
                                 result_dataTable.Rows.Add(result_row);
-                                logDev_col_dt.Rows[row_index][19] = deviation;
-                                logDev_col_dt.Rows[row_index][20] = mode;
+                                //logDev_col_dt.Rows[row_index][19] = deviation;
+                                //logDev_col_dt.Rows[row_index][20] = mode;
                                 position_lock = "un-locked";
                             }
 
@@ -373,8 +379,8 @@ namespace read_csv_form
                                 result_row[7] = row_index;
 
                                 result_dataTable.Rows.Add(result_row);
-                                logDev_col_dt.Rows[row_index][19] = deviation;
-                                logDev_col_dt.Rows[row_index][20] = mode;
+                                //logDev_col_dt.Rows[row_index][19] = deviation;
+                                //logDev_col_dt.Rows[row_index][20] = mode;
                                 position_lock = "un-locked";
                             }
                         }
@@ -404,8 +410,8 @@ namespace read_csv_form
                                 result_row[6] = mode;
                                 result_row[7] = row_index;
                                 result_dataTable.Rows.Add(result_row);
-                                logDev_col_dt.Rows[row_index][19] = deviation;
-                                logDev_col_dt.Rows[row_index][20] = mode;
+                                //.Rows[row_index][19] = deviation;
+                                //logDev_col_dt.Rows[row_index][20] = mode;
                                 //overall_row = logDev_col_dt.NewRow();
 
                                 //overall_row[row_index][19] = deviation;
@@ -426,8 +432,8 @@ namespace read_csv_form
                                 result_row[6] = mode;
                                 result_row[7] = row_index;
                                 result_dataTable.Rows.Add(result_row);
-                                logDev_col_dt.Rows[row_index][19] = deviation;
-                                logDev_col_dt.Rows[row_index][20] = mode;
+                                //logDev_col_dt.Rows[row_index][19] = deviation;
+                                //logDev_col_dt.Rows[row_index][20] = mode;
                                 //overall_row = logDev_col_dt.NewRow();
                                 //overall_row[19] = deviation;
                                 //overall_row[20] = mode;
@@ -458,12 +464,15 @@ namespace read_csv_form
                             result_row[7] = row_index;
 
                             result_dataTable.Rows.Add(result_row);
-                            logDev_col_dt.Rows[row_index][19] = deviation;
-                            logDev_col_dt.Rows[row_index][20] = mode;
+                            //logDev_col_dt.Rows[row_index][19] = deviation;
+                            //logDev_col_dt.Rows[row_index][20] = mode;
                             position_lock = "un-locked";
                         }
                     }
+                    logDev_col_dt.Rows[row_index][19] = deviation;
+                    logDev_col_dt.Rows[row_index][20] = mode;
                 }
+
             }
 
 
