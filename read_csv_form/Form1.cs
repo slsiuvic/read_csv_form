@@ -1,9 +1,11 @@
 using Microsoft.VisualBasic.FileIO;
+using System;
 using OfficeOpenXml;
 using System.Data;
 using System.Reflection.Emit;
 using System.Text;
 using System.Windows.Forms;
+using System.Xml;
 using static OfficeOpenXml.ExcelErrorValue;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
@@ -32,54 +34,6 @@ namespace read_csv_form
         String mode;
         string csv_filePath = string.Empty;
         string filename;
-
-        private void loadCSVToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var fileContent = string.Empty;
-            // csv_filePath = string.Empty;
-
-            using (OpenFileDialog openFileDialog = new OpenFileDialog())
-            {
-                openFileDialog.InitialDirectory = "c:\\";
-                openFileDialog.Filter = "csv files (*.csv)|*.csv|All files (*.*)|*.*";
-                openFileDialog.FilterIndex = 2;
-                openFileDialog.RestoreDirectory = true;
-
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    //Get the path of specified file
-                    csv_filePath = openFileDialog.FileName;
-
-                    //Read the contents of the file into a stream
-                    //var fileStream = openFileDialog.OpenFile();
-
-                    //using (StreamReader reader = new StreamReader(fileStream))
-                    //{
-                    //    fileContent = reader.ReadToEnd();
-                    //}
-                }
-            }
-
-            filename = Path.GetFileNameWithoutExtension(csv_filePath);
-            log_date = filename.Substring(0, 8);
-            train_ID = filename.Substring(9, 3);
-            var splitted_dt = Split_RTD(csv_filePath);
-            splitted_dt_dec = splitted_dt.split_dataTable;
-            splitted_dt_bin = splitted_dt.split_dataTable_bin;
-            //MessageBox.Show(fileContent, "File Content at path: " + csv_filePath, MessageBoxButtons.OK);
-            MessageBox.Show("CSV Loaded");
-        }
-
-        private void runToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var station_stopping_dt = Station_Stopping(splitted_dt_dec);
-            DataTable logDev_col = new DataTable();
-            result_dt = station_stopping_dt.result_dataTable;
-            overall_raw_dt = station_stopping_dt.logDev_col_dt;
-            WriteDataTableToCSV(overall_raw_dt, "C:\\temp_files\\overall_raw_dt.csv");
-            dataGridView1.DataSource = result_dt; // Bind the DataGridView to your DataTable
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-        }
 
         public static (DataTable split_dataTable, DataTable split_dataTable_bin) Split_RTD(string filePath)
         {
@@ -170,8 +124,6 @@ namespace read_csv_form
 
             //station_stopping(split_dataTable);
         }
-
-
 
         private static readonly Dictionary<char, string> hexCharacterToBinary = new Dictionary<char, string> {
     { '0', "0000" },
@@ -284,7 +236,8 @@ namespace read_csv_form
                     {
                         result_count++;
                         string time = split_dataTable.Rows[row_index]["Time"].ToString();
-                        string platform = Train_Platform(vcc_dec, loop_dec, c118);
+                        //string platform = Train_Platform(vcc_dec, loop_dec, c118);
+                        string platform = read_platform(vcc_dec, loop_dec, c118);
 
                         if (wegx07 == "00" && wegx00 == "00" && position_lock == "locked")
                         {
@@ -475,7 +428,6 @@ namespace read_csv_form
 
             }
 
-
             return (result_dataTable, logDev_col_dt);
         }
 
@@ -567,68 +519,6 @@ namespace read_csv_form
             return prox_status;
         }
 
-        public static String Train_Platform(string vcc, string loop, string c118)
-        {
-            string platform_filePath = "C:\\temp_files\\platform.csv";
-
-            // Create a DataTable
-            DataTable dataTable = new DataTable();
-            string platform = " ";
-
-            // Read the CSV file
-            using (TextFieldParser parser = new TextFieldParser(platform_filePath))
-            {
-                parser.TextFieldType = FieldType.Delimited;
-                parser.SetDelimiters(",");
-
-                // Read the header row
-                if (!parser.EndOfData)
-                {
-                    string[] headers = parser.ReadFields();
-                    foreach (string header in headers)
-                    {
-                        dataTable.Columns.Add(header);
-                    }
-                }
-
-                // Read the data rows
-                while (!parser.EndOfData)
-                {
-                    string[] fields = parser.ReadFields();
-                    dataTable.Rows.Add(fields);
-                }
-            }
-
-            //string platform = dataTable.Rows[int.Parse(vcc) - 1][int.Parse(loop)].ToString();
-
-            if (vcc == "12" && loop == "4" && c118 == "3F")
-            {
-                platform = "SHM1";
-
-            }
-
-            else if (vcc == "12" && loop == "4" && c118 == "30")
-            {
-                platform = "CIO1";
-            }
-
-            else if (vcc == "12" && loop == "3" && c118 == "09")
-            {
-                platform = "CIO2";
-            }
-
-            else if (vcc == "12" && loop == "3" && c118 == "17")
-            {
-                platform = "SHM2";
-            }
-
-            else
-            {
-                platform = dataTable.Rows[int.Parse(vcc) - 1][int.Parse(loop)].ToString();
-            }
-            return platform;
-        }
-
         public static String platform_door(DataTable split_dataTable, int row_index)
         {
             string psd_status;
@@ -667,32 +557,6 @@ namespace read_csv_form
                 psd_status = "";
             }
             return psd_status;
-
-            //else if (psd_bit == "02")
-            //{
-            //    //psd_status = "PSD enable";
-            //    return psd_status = "PSD enable";
-            //}
-            //else if (psd_bit == "03")
-            //{
-            //    //psd_status = "Closed";
-            //    return psd_status = "Closed";
-            //}
-            //else if (psd_bit == "04")
-            //{
-            //    //psd_status = "PSD Open";
-            //    return psd_status = "PSD Open";
-            //}
-            //else if (psd_bit == "05")
-            //{
-            //    //psd_status = "PSD OC";
-            //    return psd_status = "PSD OC";
-            //}
-            //else if (psd_bit == "FF")
-            //{
-            //    //psd_status = "PSD Unknow status";
-            //    return psd_status = "PSD Unknow status";
-            //}
 
 
         }
@@ -734,78 +598,6 @@ namespace read_csv_form
             //dataGridView1.DataSource = result_table;
         }
 
-
-
-        private void exportSplittedDecDataToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            using (SaveFileDialog sfd = new SaveFileDialog() { Filter = "Excel Workbook|*.xlsx" })
-            {
-                if (sfd.ShowDialog() == DialogResult.OK)
-                {
-                    var fileInfo = new FileInfo(sfd.FileName);
-                    using (ExcelPackage excelPackage = new ExcelPackage(fileInfo))
-                    {
-                        ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.Add("Splitted Data");
-                        worksheet.Cells.LoadFromDataTable(splitted_dt_dec, true);
-                        excelPackage.Save();
-                        MessageBox.Show("Splitted Dec Data Exported");
-                    }
-                }
-            }
-        }
-
-        private void rAWDatabinToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            using (SaveFileDialog sfd = new SaveFileDialog() { Filter = "Excel Workbook|*.xlsx" })
-            {
-                if (sfd.ShowDialog() == DialogResult.OK)
-                {
-                    var fileInfo = new FileInfo(sfd.FileName);
-                    using (ExcelPackage excelPackage = new ExcelPackage(fileInfo))
-                    {
-                        ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.Add("Splitted Data");
-                        worksheet.Cells.LoadFromDataTable(splitted_dt_bin, true);
-                        excelPackage.Save();
-                        MessageBox.Show("Splitted Bin Data Exported");
-                    }
-                }
-            }
-        }
-
-        private void stoppingDataToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //DataTable result_dt = Station_Stopping(splitted_dt_dec);
-            var station_stopping_dt = Station_Stopping(splitted_dt_dec);
-            result_dt = station_stopping_dt.result_dataTable;
-            using (SaveFileDialog sfd = new SaveFileDialog() { Filter = "Excel Workbook|*.xlsx" })
-            {
-                if (sfd.ShowDialog() == DialogResult.OK)
-                {
-                    var fileInfo = new FileInfo(sfd.FileName);
-                    using (ExcelPackage excelPackage = new ExcelPackage(fileInfo))
-                    {
-                        ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.Add("Stopping Data");
-                        worksheet.Cells.LoadFromDataTable(result_dt, true);
-                        excelPackage.Save();
-                        MessageBox.Show("Stopping Data Exported");
-                    }
-                }
-            }
-        }
-
-        private void index_input_TextChanged(object sender, EventArgs e)
-        {
-
-            //if (int.TryParse(index_input.Text, out int value))
-            //{
-            //    // Ensure the value is within the scrollbar's range
-            //    value = Math.Min(Math.Max(value, hscrollBar1.Minimum), scrollBar.Maximum);
-            //    scrollBar.Value = value;
-            //}
-        }
-
-
-
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
             int count = splitted_dt_dec.Rows.Count;
@@ -815,10 +607,8 @@ namespace read_csv_form
             string docking = dock_status(splitted_dt_dec.Rows[trackBar1.Value]["C44C"].ToString());
             string prox_detect = prox_status(splitted_dt_dec.Rows[trackBar1.Value]["C219"].ToString());
 
-
-
             Index.Text = "Index: " + overall_raw_dt.Rows[trackBar1.Value]["Index"].ToString();
-            Time.Text = "Time: " + splitted_dt_dec.Rows[trackBar1.Value]["Time"].ToString();
+            time.Text = "Time: " + splitted_dt_dec.Rows[trackBar1.Value]["Time"].ToString();
             C17D.Text = "C17D: " + splitted_dt_dec.Rows[trackBar1.Value]["C17D"].ToString();
             C44C.Text = "C44C: " + splitted_dt_dec.Rows[trackBar1.Value]["C44C"].ToString();
             C133.Text = "C133: " + splitted_dt_dec.Rows[trackBar1.Value]["C133"].ToString();
@@ -839,7 +629,8 @@ namespace read_csv_form
             remain_target.Text = "Remain Target: " + dist2go(splitted_dt_dec, trackBar1.Value).ToString();
             train_stationary.Text = "Train: " + train_moving(splitted_dt_dec, trackBar1.Value).ToString();
             dock.Text = "Dock Status: " + docking;
-            platform.Text = "Platform: " + Train_Platform(Convert.ToInt32(splitted_dt_dec.Rows[trackBar1.Value]["C433"].ToString(), 16).ToString(), Convert.ToInt32(splitted_dt_dec.Rows[trackBar1.Value]["C43C"].ToString(), 16).ToString(), splitted_dt_dec.Rows[trackBar1.Value]["C118"].ToString());
+            //platform.Text = "Platform: " + Train_Platform(Convert.ToInt32(splitted_dt_dec.Rows[trackBar1.Value]["C433"].ToString(), 16).ToString(), Convert.ToInt32(splitted_dt_dec.Rows[trackBar1.Value]["C43C"].ToString(), 16).ToString(), splitted_dt_dec.Rows[trackBar1.Value]["C118"].ToString());
+            platform.Text = "Platform: " + read_platform(Convert.ToInt32(splitted_dt_dec.Rows[trackBar1.Value]["C433"].ToString(), 16).ToString(), Convert.ToInt32(splitted_dt_dec.Rows[trackBar1.Value]["C43C"].ToString(), 16).ToString(), splitted_dt_dec.Rows[trackBar1.Value]["C118"].ToString());
             proxmity.Text = "Proxmity Plate: " + prox_detect;
             over_under.Text = "Over/Undershoot: " + overall_raw_dt.Rows[trackBar1.Value]["Mode"].ToString();
             trainspeed.Text = "Train Speed (kph): " + overall_raw_dt.Rows[trackBar1.Value]["Speed"].ToString();
@@ -866,10 +657,157 @@ namespace read_csv_form
                 proxmity.BackColor = System.Drawing.Color.Transparent;
             }
         }
-
-        private void Time_Click(object sender, EventArgs e)
+        
+        public static string read_platform(string searchVcc, string searchLoop, string c118)
         {
+            string platform_name = "";
+            XmlDocument doc = new XmlDocument();
+            //doc.Load(@"C:\\Users\\vicsiu\\source\\repos\\read_csv_dt\\platform.xml");
+            doc.Load("platform.xml");
+            //doc.Save(Console.Out);
+            //int searchVCC = 1; // Set the VCC value you want to search for
+            //int searchLoop = 5; // Set the loop value you want to search for
 
+
+            string xpath = $"/stations/station[VCC='{searchVcc}' and loop='{searchLoop}']/name";
+            XmlNodeList stationNodes = doc.SelectNodes(xpath);
+
+            if (searchVcc == "12" && searchLoop == "4" && c118 == "3F")
+            {
+                platform_name = "SHM1";
+
+            }
+
+            else if (searchVcc == "12" && searchLoop == "4" && c118 == "30")
+            {
+                platform_name = "CIO1";
+            }
+
+            else if (searchVcc == "12" && searchLoop == "3" && c118 == "09")
+            {
+                platform_name = "CIO2";
+            }
+
+            else if (searchVcc == "12" && searchLoop == "3" && c118 == "17")
+            {
+                platform_name = "SHM2";
+            }
+
+            else
+            {
+                foreach (XmlNode stantionNode in stationNodes)
+                {
+                    //Console.WriteLine(stantionNode.InnerText);
+                    platform_name = stantionNode.InnerText;
+
+                }
+            }
+            return platform_name;
+        }
+
+        private void load_csv_Click_1(object sender, EventArgs e)
+        {
+            var fileContent = string.Empty;
+            // csv_filePath = string.Empty;
+
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.InitialDirectory = "c:\\";
+                openFileDialog.Filter = "csv files (*.csv)|*.csv|All files (*.*)|*.*";
+                openFileDialog.FilterIndex = 2;
+                openFileDialog.RestoreDirectory = true;
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    //Get the path of specified file
+                    csv_filePath = openFileDialog.FileName;
+
+                    //Read the contents of the file into a stream
+                    //var fileStream = openFileDialog.OpenFile();
+
+                    //using (StreamReader reader = new StreamReader(fileStream))
+                    //{
+                    //    fileContent = reader.ReadToEnd();
+                    //}
+                }
+            }
+
+            filename = Path.GetFileNameWithoutExtension(csv_filePath);
+            log_date = filename.Substring(0, 8);
+            train_ID = filename.Substring(9, 3);
+            var splitted_dt = Split_RTD(csv_filePath);
+            splitted_dt_dec = splitted_dt.split_dataTable;
+            splitted_dt_bin = splitted_dt.split_dataTable_bin;
+            //MessageBox.Show(fileContent, "File Content at path: " + csv_filePath, MessageBoxButtons.OK);
+            MessageBox.Show("CSV Loaded");
+        }
+
+        private void analysis_Click(object sender, EventArgs e)
+        {
+            var station_stopping_dt = Station_Stopping(splitted_dt_dec);
+            DataTable logDev_col = new DataTable();
+            result_dt = station_stopping_dt.result_dataTable;
+            overall_raw_dt = station_stopping_dt.logDev_col_dt;
+            //WriteDataTableToCSV(overall_raw_dt, "C:\\temp_files\\overall_raw_dt.csv");
+            dataGridView1.DataSource = result_dt; // Bind the DataGridView to your DataTable
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+        }
+
+        private void export_hex_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog sfd = new SaveFileDialog() { Filter = "Excel Workbook|*.xlsx" })
+            {
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    var fileInfo = new FileInfo(sfd.FileName);
+                    using (ExcelPackage excelPackage = new ExcelPackage(fileInfo))
+                    {
+                        ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.Add("Splitted Data");
+                        worksheet.Cells.LoadFromDataTable(splitted_dt_dec, true);
+                        excelPackage.Save();
+                        MessageBox.Show("Splitted Hex Data Exported");
+                    }
+                }
+            }
+        }
+
+        private void export_bin_Click_1(object sender, EventArgs e)
+        {
+            using (SaveFileDialog sfd = new SaveFileDialog() { Filter = "Excel Workbook|*.xlsx" })
+            {
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    var fileInfo = new FileInfo(sfd.FileName);
+                    using (ExcelPackage excelPackage = new ExcelPackage(fileInfo))
+                    {
+                        ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.Add("Splitted Data");
+                        worksheet.Cells.LoadFromDataTable(splitted_dt_bin, true);
+                        excelPackage.Save();
+                        MessageBox.Show("Splitted Bin Data Exported");
+                    }
+                }
+            }
+        }
+
+        private void export_stopping_Click_1(object sender, EventArgs e)
+        {
+            //DataTable result_dt = Station_Stopping(splitted_dt_dec);
+            var station_stopping_dt = Station_Stopping(splitted_dt_dec);
+            result_dt = station_stopping_dt.result_dataTable;
+            using (SaveFileDialog sfd = new SaveFileDialog() { Filter = "Excel Workbook|*.xlsx" })
+            {
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    var fileInfo = new FileInfo(sfd.FileName);
+                    using (ExcelPackage excelPackage = new ExcelPackage(fileInfo))
+                    {
+                        ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.Add("Stopping Data");
+                        worksheet.Cells.LoadFromDataTable(result_dt, true);
+                        excelPackage.Save();
+                        MessageBox.Show("Stopping Data Exported");
+                    }
+                }
+            }
         }
     }
 }

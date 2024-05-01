@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            menuStrip2 = new MenuStrip();
             fileToolStripMenuItem = new ToolStripMenuItem();
             loadcsv_menu = new ToolStripMenuItem();
             exportToolStripMenuItem = new ToolStripMenuItem();
@@ -43,7 +42,6 @@
             btnClickThisBindingSource = new BindingSource(components);
             dataGridView1 = new DataGridView();
             C08A = new Label();
-            Time = new Label();
             C17D = new Label();
             C44C = new Label();
             C133 = new Label();
@@ -73,83 +71,61 @@
             trainID = new Label();
             psd = new Label();
             trackBar1 = new TrackBar();
-            menuStrip2.SuspendLayout();
+            load_csv = new Button();
+            analysis = new Button();
+            export_hex = new Button();
+            export_bin = new Button();
+            export_stopping = new Button();
+            time = new Label();
             ((System.ComponentModel.ISupportInitialize)btnClickThisBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)trackBar1).BeginInit();
             SuspendLayout();
             // 
-            // menuStrip2
-            // 
-            menuStrip2.ImageScalingSize = new Size(28, 28);
-            menuStrip2.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, analysisToolStripMenuItem });
-            menuStrip2.Location = new Point(0, 0);
-            menuStrip2.Name = "menuStrip2";
-            menuStrip2.Size = new Size(1085, 24);
-            menuStrip2.TabIndex = 3;
-            menuStrip2.Text = "menuStrip2";
-            // 
             // fileToolStripMenuItem
             // 
-            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { loadcsv_menu, exportToolStripMenuItem, exitToolStripMenuItem });
             fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            fileToolStripMenuItem.Size = new Size(37, 20);
-            fileToolStripMenuItem.Text = "File";
+            fileToolStripMenuItem.Size = new Size(32, 19);
             // 
             // loadcsv_menu
             // 
             loadcsv_menu.Name = "loadcsv_menu";
-            loadcsv_menu.Size = new Size(120, 22);
-            loadcsv_menu.Text = "Load csv";
-            loadcsv_menu.Click += loadCSVToolStripMenuItem_Click;
+            loadcsv_menu.Size = new Size(32, 19);
             // 
             // exportToolStripMenuItem
             // 
-            exportToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { exportSplittedDecDataToolStripMenuItem, rAWDatabinToolStripMenuItem, stoppingDataToolStripMenuItem });
             exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            exportToolStripMenuItem.Size = new Size(120, 22);
-            exportToolStripMenuItem.Text = "Export";
+            exportToolStripMenuItem.Size = new Size(32, 19);
             // 
             // exportSplittedDecDataToolStripMenuItem
             // 
             exportSplittedDecDataToolStripMenuItem.Name = "exportSplittedDecDataToolStripMenuItem";
-            exportSplittedDecDataToolStripMenuItem.Size = new Size(155, 22);
-            exportSplittedDecDataToolStripMenuItem.Text = "RAW data (dec)";
-            exportSplittedDecDataToolStripMenuItem.Click += exportSplittedDecDataToolStripMenuItem_Click;
+            exportSplittedDecDataToolStripMenuItem.Size = new Size(32, 19);
             // 
             // rAWDatabinToolStripMenuItem
             // 
             rAWDatabinToolStripMenuItem.Name = "rAWDatabinToolStripMenuItem";
-            rAWDatabinToolStripMenuItem.Size = new Size(155, 22);
-            rAWDatabinToolStripMenuItem.Text = "RAW data (bin)";
-            rAWDatabinToolStripMenuItem.Click += rAWDatabinToolStripMenuItem_Click;
+            rAWDatabinToolStripMenuItem.Size = new Size(32, 19);
             // 
             // stoppingDataToolStripMenuItem
             // 
             stoppingDataToolStripMenuItem.Name = "stoppingDataToolStripMenuItem";
-            stoppingDataToolStripMenuItem.Size = new Size(155, 22);
-            stoppingDataToolStripMenuItem.Text = "Stopping data";
-            stoppingDataToolStripMenuItem.Click += stoppingDataToolStripMenuItem_Click;
+            stoppingDataToolStripMenuItem.Size = new Size(32, 19);
             // 
             // exitToolStripMenuItem
             // 
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.Size = new Size(120, 22);
-            exitToolStripMenuItem.Text = "Exit";
+            exitToolStripMenuItem.Size = new Size(32, 19);
             // 
             // analysisToolStripMenuItem
             // 
-            analysisToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { runToolStripMenuItem });
             analysisToolStripMenuItem.Name = "analysisToolStripMenuItem";
-            analysisToolStripMenuItem.Size = new Size(62, 20);
-            analysisToolStripMenuItem.Text = "Analysis";
+            analysisToolStripMenuItem.Size = new Size(32, 19);
             // 
             // runToolStripMenuItem
             // 
             runToolStripMenuItem.Name = "runToolStripMenuItem";
-            runToolStripMenuItem.Size = new Size(95, 22);
-            runToolStripMenuItem.Text = "Run";
-            runToolStripMenuItem.Click += runToolStripMenuItem_Click;
+            runToolStripMenuItem.Size = new Size(32, 19);
             // 
             // openFileDialog1
             // 
@@ -163,10 +139,11 @@
             // 
             dataGridView1.BackgroundColor = SystemColors.Control;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(8, 54);
+            dataGridView1.Location = new Point(14, 43);
+            dataGridView1.Margin = new Padding(5, 6, 5, 6);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 21;
-            dataGridView1.Size = new Size(390, 351);
+            dataGridView1.Size = new Size(990, 767);
             dataGridView1.TabIndex = 4;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick_2;
             // 
@@ -174,30 +151,21 @@
             // 
             C08A.AutoSize = true;
             C08A.Font = new Font("Consolas", 12F);
-            C08A.Location = new Point(418, 338);
+            C08A.Location = new Point(1062, 775);
+            C08A.Margin = new Padding(5, 0, 5, 0);
             C08A.Name = "C08A";
-            C08A.Size = new Size(45, 19);
+            C08A.Size = new Size(75, 33);
             C08A.TabIndex = 7;
             C08A.Text = "C08A";
-            // 
-            // Time
-            // 
-            Time.AutoSize = true;
-            Time.Font = new Font("Consolas", 12F);
-            Time.Location = new Point(615, 105);
-            Time.Name = "Time";
-            Time.Size = new Size(45, 19);
-            Time.TabIndex = 8;
-            Time.Text = "Time";
-            Time.Click += Time_Click;
             // 
             // C17D
             // 
             C17D.AutoSize = true;
             C17D.Font = new Font("Consolas", 12F);
-            C17D.Location = new Point(418, 114);
+            C17D.Location = new Point(1062, 215);
+            C17D.Margin = new Padding(5, 0, 5, 0);
             C17D.Name = "C17D";
-            C17D.Size = new Size(45, 19);
+            C17D.Size = new Size(75, 33);
             C17D.TabIndex = 9;
             C17D.Text = "C17D";
             // 
@@ -205,9 +173,10 @@
             // 
             C44C.AutoSize = true;
             C44C.Font = new Font("Consolas", 12F);
-            C44C.Location = new Point(418, 130);
+            C44C.Location = new Point(1062, 255);
+            C44C.Margin = new Padding(5, 0, 5, 0);
             C44C.Name = "C44C";
-            C44C.Size = new Size(45, 19);
+            C44C.Size = new Size(75, 33);
             C44C.TabIndex = 10;
             C44C.Text = "C44C";
             // 
@@ -215,9 +184,10 @@
             // 
             C133.AutoSize = true;
             C133.Font = new Font("Consolas", 12F);
-            C133.Location = new Point(418, 146);
+            C133.Location = new Point(1062, 295);
+            C133.Margin = new Padding(5, 0, 5, 0);
             C133.Name = "C133";
-            C133.Size = new Size(45, 19);
+            C133.Size = new Size(75, 33);
             C133.TabIndex = 11;
             C133.Text = "C133";
             // 
@@ -225,9 +195,10 @@
             // 
             C433.AutoSize = true;
             C433.Font = new Font("Consolas", 12F);
-            C433.Location = new Point(418, 162);
+            C433.Location = new Point(1062, 335);
+            C433.Margin = new Padding(5, 0, 5, 0);
             C433.Name = "C433";
-            C433.Size = new Size(45, 19);
+            C433.Size = new Size(75, 33);
             C433.TabIndex = 12;
             C433.Text = "C433";
             // 
@@ -235,9 +206,10 @@
             // 
             C43C.AutoSize = true;
             C43C.Font = new Font("Consolas", 12F);
-            C43C.Location = new Point(418, 178);
+            C43C.Location = new Point(1062, 375);
+            C43C.Margin = new Padding(5, 0, 5, 0);
             C43C.Name = "C43C";
-            C43C.Size = new Size(45, 19);
+            C43C.Size = new Size(75, 33);
             C43C.TabIndex = 13;
             C43C.Text = "C43C";
             // 
@@ -245,9 +217,10 @@
             // 
             C219.AutoSize = true;
             C219.Font = new Font("Consolas", 12F);
-            C219.Location = new Point(418, 194);
+            C219.Location = new Point(1062, 415);
+            C219.Margin = new Padding(5, 0, 5, 0);
             C219.Name = "C219";
-            C219.Size = new Size(45, 19);
+            C219.Size = new Size(75, 33);
             C219.TabIndex = 14;
             C219.Text = "C219";
             // 
@@ -255,9 +228,10 @@
             // 
             C573.AutoSize = true;
             C573.Font = new Font("Consolas", 12F);
-            C573.Location = new Point(418, 210);
+            C573.Location = new Point(1062, 455);
+            C573.Margin = new Padding(5, 0, 5, 0);
             C573.Name = "C573";
-            C573.Size = new Size(45, 19);
+            C573.Size = new Size(75, 33);
             C573.TabIndex = 15;
             C573.Text = "C573";
             // 
@@ -265,9 +239,10 @@
             // 
             C12C.AutoSize = true;
             C12C.Font = new Font("Consolas", 12F);
-            C12C.Location = new Point(418, 226);
+            C12C.Location = new Point(1062, 495);
+            C12C.Margin = new Padding(5, 0, 5, 0);
             C12C.Name = "C12C";
-            C12C.Size = new Size(45, 19);
+            C12C.Size = new Size(75, 33);
             C12C.TabIndex = 16;
             C12C.Text = "C12C";
             // 
@@ -275,9 +250,10 @@
             // 
             C118.AutoSize = true;
             C118.Font = new Font("Consolas", 12F);
-            C118.Location = new Point(418, 242);
+            C118.Location = new Point(1062, 535);
+            C118.Margin = new Padding(5, 0, 5, 0);
             C118.Name = "C118";
-            C118.Size = new Size(45, 19);
+            C118.Size = new Size(75, 33);
             C118.TabIndex = 17;
             C118.Text = "C118";
             // 
@@ -285,9 +261,10 @@
             // 
             C117.AutoSize = true;
             C117.Font = new Font("Consolas", 12F);
-            C117.Location = new Point(418, 258);
+            C117.Location = new Point(1062, 575);
+            C117.Margin = new Padding(5, 0, 5, 0);
             C117.Name = "C117";
-            C117.Size = new Size(45, 19);
+            C117.Size = new Size(75, 33);
             C117.TabIndex = 18;
             C117.Text = "C117";
             // 
@@ -295,9 +272,10 @@
             // 
             C116.AutoSize = true;
             C116.Font = new Font("Consolas", 12F);
-            C116.Location = new Point(418, 274);
+            C116.Location = new Point(1062, 615);
+            C116.Margin = new Padding(5, 0, 5, 0);
             C116.Name = "C116";
-            C116.Size = new Size(45, 19);
+            C116.Size = new Size(75, 33);
             C116.TabIndex = 19;
             C116.Text = "C116";
             // 
@@ -305,9 +283,10 @@
             // 
             C089.AutoSize = true;
             C089.Font = new Font("Consolas", 12F);
-            C089.Location = new Point(418, 290);
+            C089.Location = new Point(1062, 655);
+            C089.Margin = new Padding(5, 0, 5, 0);
             C089.Name = "C089";
-            C089.Size = new Size(45, 19);
+            C089.Size = new Size(75, 33);
             C089.TabIndex = 20;
             C089.Text = "C089";
             // 
@@ -315,9 +294,10 @@
             // 
             C088.AutoSize = true;
             C088.Font = new Font("Consolas", 12F);
-            C088.Location = new Point(418, 306);
+            C088.Location = new Point(1062, 695);
+            C088.Margin = new Padding(5, 0, 5, 0);
             C088.Name = "C088";
-            C088.Size = new Size(45, 19);
+            C088.Size = new Size(75, 33);
             C088.TabIndex = 21;
             C088.Text = "C088";
             // 
@@ -325,9 +305,10 @@
             // 
             C08B.AutoSize = true;
             C08B.Font = new Font("Consolas", 12F);
-            C08B.Location = new Point(417, 322);
+            C08B.Location = new Point(1062, 734);
+            C08B.Margin = new Padding(5, 0, 5, 0);
             C08B.Name = "C08B";
-            C08B.Size = new Size(45, 19);
+            C08B.Size = new Size(75, 33);
             C08B.TabIndex = 22;
             C08B.Text = "C08B";
             // 
@@ -335,9 +316,10 @@
             // 
             C17B.AutoSize = true;
             C17B.Font = new Font("Consolas", 12F);
-            C17B.Location = new Point(417, 354);
+            C17B.Location = new Point(1062, 815);
+            C17B.Margin = new Padding(5, 0, 5, 0);
             C17B.Name = "C17B";
-            C17B.Size = new Size(45, 19);
+            C17B.Size = new Size(75, 33);
             C17B.TabIndex = 23;
             C17B.Text = "C17B";
             // 
@@ -345,9 +327,10 @@
             // 
             Index.AutoSize = true;
             Index.Font = new Font("Consolas", 12F);
-            Index.Location = new Point(417, 95);
+            Index.Location = new Point(1062, 175);
+            Index.Margin = new Padding(5, 0, 5, 0);
             Index.Name = "Index";
-            Index.Size = new Size(54, 19);
+            Index.Size = new Size(90, 33);
             Index.TabIndex = 24;
             Index.Text = "Index";
             // 
@@ -355,10 +338,9 @@
             // 
             LogDeviation.AutoSize = true;
             LogDeviation.Font = new Font("Consolas", 12F);
-            LogDeviation.Location = new Point(615, 165);
-            LogDeviation.Margin = new Padding(2, 0, 2, 0);
+            LogDeviation.Location = new Point(1330, 415);
             LogDeviation.Name = "LogDeviation";
-            LogDeviation.Size = new Size(162, 19);
+            LogDeviation.Size = new Size(270, 33);
             LogDeviation.TabIndex = 25;
             LogDeviation.Text = "Logical Deviation";
             LogDeviation.TextAlign = ContentAlignment.BottomRight;
@@ -367,10 +349,9 @@
             // 
             remain_target.AutoSize = true;
             remain_target.Font = new Font("Consolas", 12F);
-            remain_target.Location = new Point(871, 165);
-            remain_target.Margin = new Padding(2, 0, 2, 0);
+            remain_target.Location = new Point(1330, 255);
             remain_target.Name = "remain_target";
-            remain_target.Size = new Size(126, 19);
+            remain_target.Size = new Size(210, 33);
             remain_target.TabIndex = 26;
             remain_target.Text = "Remain Target";
             // 
@@ -378,10 +359,9 @@
             // 
             train_stationary.AutoSize = true;
             train_stationary.Font = new Font("Consolas", 12F);
-            train_stationary.Location = new Point(871, 124);
-            train_stationary.Margin = new Padding(2, 0, 2, 0);
+            train_stationary.Location = new Point(1330, 175);
             train_stationary.Name = "train_stationary";
-            train_stationary.Size = new Size(54, 19);
+            train_stationary.Size = new Size(90, 33);
             train_stationary.TabIndex = 27;
             train_stationary.Text = "Train";
             // 
@@ -389,10 +369,9 @@
             // 
             dock.AutoSize = true;
             dock.Font = new Font("Consolas", 12F);
-            dock.Location = new Point(871, 144);
-            dock.Margin = new Padding(2, 0, 2, 0);
+            dock.Location = new Point(1330, 215);
             dock.Name = "dock";
-            dock.Size = new Size(108, 19);
+            dock.Size = new Size(180, 33);
             dock.TabIndex = 28;
             dock.Text = "Dock Status";
             // 
@@ -400,10 +379,9 @@
             // 
             platform.AutoSize = true;
             platform.Font = new Font("Consolas", 12F);
-            platform.Location = new Point(871, 186);
-            platform.Margin = new Padding(2, 0, 2, 0);
+            platform.Location = new Point(1330, 295);
             platform.Name = "platform";
-            platform.Size = new Size(81, 19);
+            platform.Size = new Size(135, 33);
             platform.TabIndex = 29;
             platform.Text = "Platform";
             // 
@@ -411,10 +389,9 @@
             // 
             proxmity.AutoSize = true;
             proxmity.Font = new Font("Consolas", 12F);
-            proxmity.Location = new Point(615, 144);
-            proxmity.Margin = new Padding(2, 0, 2, 0);
+            proxmity.Location = new Point(1330, 375);
             proxmity.Name = "proxmity";
-            proxmity.Size = new Size(90, 19);
+            proxmity.Size = new Size(150, 33);
             proxmity.TabIndex = 30;
             proxmity.Text = "Proximity";
             // 
@@ -422,10 +399,9 @@
             // 
             over_under.AutoSize = true;
             over_under.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            over_under.Location = new Point(615, 186);
-            over_under.Margin = new Padding(2, 0, 2, 0);
+            over_under.Location = new Point(1330, 455);
             over_under.Name = "over_under";
-            over_under.Size = new Size(144, 19);
+            over_under.Size = new Size(240, 33);
             over_under.TabIndex = 31;
             over_under.Text = "Over/Undershoot";
             // 
@@ -433,10 +409,9 @@
             // 
             trainspeed.AutoSize = true;
             trainspeed.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            trainspeed.Location = new Point(871, 210);
-            trainspeed.Margin = new Padding(2, 0, 2, 0);
+            trainspeed.Location = new Point(1330, 335);
             trainspeed.Name = "trainspeed";
-            trainspeed.Size = new Size(108, 19);
+            trainspeed.Size = new Size(180, 33);
             trainspeed.TabIndex = 32;
             trainspeed.Text = "Train Speed";
             // 
@@ -444,10 +419,9 @@
             // 
             logdate.AutoSize = true;
             logdate.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            logdate.Location = new Point(871, 105);
-            logdate.Margin = new Padding(2, 0, 2, 0);
+            logdate.Location = new Point(1034, 43);
             logdate.Name = "logdate";
-            logdate.Size = new Size(45, 19);
+            logdate.Size = new Size(75, 33);
             logdate.TabIndex = 33;
             logdate.Text = "Date";
             // 
@@ -455,10 +429,9 @@
             // 
             trainID.AutoSize = true;
             trainID.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            trainID.Location = new Point(615, 124);
-            trainID.Margin = new Padding(2, 0, 2, 0);
+            trainID.Location = new Point(1568, 43);
             trainID.Name = "trainID";
-            trainID.Size = new Size(81, 19);
+            trainID.Size = new Size(135, 33);
             trainID.TabIndex = 34;
             trainID.Text = "Train ID";
             // 
@@ -466,27 +439,94 @@
             // 
             psd.AutoSize = true;
             psd.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            psd.Location = new Point(615, 210);
-            psd.Margin = new Padding(2, 0, 2, 0);
+            psd.Location = new Point(1330, 495);
             psd.Name = "psd";
-            psd.Size = new Size(126, 19);
+            psd.Size = new Size(210, 33);
             psd.TabIndex = 35;
             psd.Text = "Platform Door";
             // 
             // trackBar1
             // 
-            trackBar1.Location = new Point(418, 54);
-            trackBar1.Margin = new Padding(2);
+            trackBar1.Location = new Point(1025, 94);
+            trackBar1.Margin = new Padding(3, 4, 3, 4);
             trackBar1.Name = "trackBar1";
-            trackBar1.Size = new Size(656, 45);
+            trackBar1.Size = new Size(797, 80);
             trackBar1.TabIndex = 39;
             trackBar1.Scroll += trackBar1_Scroll;
             // 
+            // load_csv
+            // 
+            load_csv.FlatAppearance.BorderSize = 2;
+            load_csv.Location = new Point(14, 839);
+            load_csv.Name = "load_csv";
+            load_csv.Size = new Size(193, 40);
+            load_csv.TabIndex = 41;
+            load_csv.Text = "Load CSV";
+            load_csv.UseVisualStyleBackColor = true;
+            load_csv.Click += load_csv_Click_1;
+            // 
+            // analysis
+            // 
+            analysis.Location = new Point(213, 839);
+            analysis.Name = "analysis";
+            analysis.Size = new Size(193, 40);
+            analysis.TabIndex = 43;
+            analysis.Text = "Analysis";
+            analysis.UseVisualStyleBackColor = true;
+            analysis.Click += analysis_Click;
+            // 
+            // export_hex
+            // 
+            export_hex.DialogResult = DialogResult.TryAgain;
+            export_hex.Location = new Point(412, 839);
+            export_hex.Name = "export_hex";
+            export_hex.Size = new Size(193, 40);
+            export_hex.TabIndex = 44;
+            export_hex.Text = "Export HEX";
+            export_hex.UseVisualStyleBackColor = true;
+            export_hex.Click += export_hex_Click;
+            // 
+            // export_bin
+            // 
+            export_bin.Location = new Point(612, 839);
+            export_bin.Name = "export_bin";
+            export_bin.Size = new Size(193, 40);
+            export_bin.TabIndex = 45;
+            export_bin.Text = "Export BIN";
+            export_bin.UseVisualStyleBackColor = true;
+            export_bin.Click += export_bin_Click_1;
+            // 
+            // export_stopping
+            // 
+            export_stopping.Location = new Point(811, 839);
+            export_stopping.Name = "export_stopping";
+            export_stopping.Size = new Size(193, 40);
+            export_stopping.TabIndex = 46;
+            export_stopping.Text = "Export Stopping";
+            export_stopping.UseVisualStyleBackColor = true;
+            export_stopping.Click += export_stopping_Click_1;
+            // 
+            // time
+            // 
+            time.AutoSize = true;
+            time.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            time.Location = new Point(1327, 43);
+            time.Name = "time";
+            time.Size = new Size(75, 33);
+            time.TabIndex = 47;
+            time.Text = "Time";
+            // 
             // btnClickThis
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(12F, 30F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1085, 530);
+            ClientSize = new Size(1860, 911);
+            Controls.Add(time);
+            Controls.Add(export_stopping);
+            Controls.Add(export_bin);
+            Controls.Add(export_hex);
+            Controls.Add(analysis);
+            Controls.Add(load_csv);
             Controls.Add(trackBar1);
             Controls.Add(psd);
             Controls.Add(trainID);
@@ -515,14 +555,11 @@
             Controls.Add(C133);
             Controls.Add(C44C);
             Controls.Add(C17D);
-            Controls.Add(Time);
             Controls.Add(C08A);
             Controls.Add(dataGridView1);
-            Controls.Add(menuStrip2);
+            Margin = new Padding(5, 6, 5, 6);
             Name = "btnClickThis";
             Text = "Form1";
-            menuStrip2.ResumeLayout(false);
-            menuStrip2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)btnClickThisBindingSource).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ((System.ComponentModel.ISupportInitialize)trackBar1).EndInit();
@@ -531,7 +568,6 @@
         }
 
         #endregion
-        private MenuStrip menuStrip2;
         private ToolStripMenuItem fileToolStripMenuItem;
         private ToolStripMenuItem loadcsv_menu;
         private ToolStripMenuItem analysisToolStripMenuItem;
@@ -541,7 +577,6 @@
         private BindingSource btnClickThisBindingSource;
         private DataGridView dataGridView1;
         private Label C08A;
-        private Label Time;
         private Label C17D;
         private Label C44C;
         private Label C133;
@@ -575,5 +610,11 @@
         private Label trainID;
         private Label psd;
         private TrackBar trackBar1;
+        private Button load_csv;
+        private Button analysis;
+        private Button export_hex;
+        private Button export_bin;
+        private Button export_stopping;
+        private Label time;
     }
 }
