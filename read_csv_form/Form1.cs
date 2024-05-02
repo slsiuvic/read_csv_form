@@ -257,7 +257,7 @@ namespace read_csv_form
                                 result_row[0] = result_count;
                                 result_row[1] = time;
                                 result_row[2] = platform;
-                                result_row[3] = deviation;
+                                result_row[3] = Math.Abs(deviation);
                                 result_row[4] = dock_status(dock);
                                 result_row[5] = prox_status(prox);
                                 result_row[6] = mode;
@@ -275,7 +275,7 @@ namespace read_csv_form
                                 result_row[0] = result_count;
                                 result_row[1] = time;
                                 result_row[2] = platform;
-                                result_row[3] = deviation;
+                                result_row[3] = Math.Abs(deviation);
                                 result_row[4] = dock_status(dock);
                                 result_row[5] = prox_status(prox);
                                 result_row[6] = mode;
@@ -307,7 +307,7 @@ namespace read_csv_form
                                 result_row[0] = result_count;
                                 result_row[1] = time;
                                 result_row[2] = platform;
-                                result_row[3] = deviation;
+                                result_row[3] = Math.Abs(deviation);
                                 result_row[4] = dock_status(dock);
                                 result_row[5] = prox_status(prox);
                                 result_row[6] = mode;
@@ -325,7 +325,7 @@ namespace read_csv_form
                                 result_row[0] = result_count;
                                 result_row[1] = time;
                                 result_row[2] = platform;
-                                result_row[3] = deviation;
+                                result_row[3] = Math.Abs(deviation);
                                 result_row[4] = dock_status(dock);
                                 result_row[5] = prox_status(prox);
                                 result_row[6] = mode;
@@ -357,7 +357,7 @@ namespace read_csv_form
                                 result_row[0] = result_count;
                                 result_row[1] = time;
                                 result_row[2] = platform;
-                                result_row[3] = deviation;
+                                result_row[3] = Math.Abs(deviation);
                                 result_row[4] = dock_status(dock);
                                 result_row[5] = prox_status(prox);
                                 result_row[6] = mode;
@@ -379,7 +379,7 @@ namespace read_csv_form
                                 result_row[0] = result_count;
                                 result_row[1] = time;
                                 result_row[2] = platform;
-                                result_row[3] = deviation;
+                                result_row[3] = Math.Abs(deviation);
                                 result_row[4] = dock_status(dock);
                                 result_row[5] = prox_status(prox);
                                 result_row[6] = mode;
@@ -410,7 +410,7 @@ namespace read_csv_form
                             result_row[0] = result_count;
                             result_row[1] = time;
                             result_row[2] = platform;
-                            result_row[3] = deviation;
+                            result_row[3] = Math.Abs(deviation);
                             result_row[4] = dock_status(dock);
                             result_row[5] = prox_status(prox);
                             result_row[6] = mode;
@@ -422,7 +422,7 @@ namespace read_csv_form
                             position_lock = "un-locked";
                         }
                     }
-                    logDev_col_dt.Rows[row_index][19] = deviation;
+                    logDev_col_dt.Rows[row_index][19] = Math.Abs(deviation);
                     logDev_col_dt.Rows[row_index][20] = mode;
                 }
 
